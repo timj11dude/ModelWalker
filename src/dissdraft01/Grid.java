@@ -8,8 +8,6 @@ package dissdraft01;
 public class Grid
 {
     //Added Commented galore 01
-    protected int gridHeight;
-    protected int gridLength;
     protected GrassPatch[] grassPatches;
     protected Unit[] units;
 
