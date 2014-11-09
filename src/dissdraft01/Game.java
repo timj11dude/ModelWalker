@@ -11,10 +11,12 @@ public class Game
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
+    public static int GRID_HEIGHT = 10;
+    public static int GRID_LENGTH = 10;
 
     public void run() throws InterruptedException
     {
-        grid = new Grid(9, 9);
+        grid = new Grid(GRID_LENGTH, GRID_HEIGHT);
         growthAmount = 1;
         display = new DisplayOut(grid.getGridLength(), grid.getGridHeight());
         for (int i = 0; i < 40; i++)
