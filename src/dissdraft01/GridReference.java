@@ -10,15 +10,20 @@ public class GridReference
 {
 
     private int _x;
-
     private int _y;
-
+    
     public GridReference(int x, int y)
     {
+        //Check that the attempted grid reference is within the defined grid size
+        if (x > (Game.GRID_LENGTH - 1) || y > (Game.GRID_HEIGHT - 1) || x < 0 || y < 0)
+        {
+            throw new NullPointerException();
+        }
         _x = x;
         _y = y;
     }
     
+    //Returns a Boolean if the provided integer coordsinate match this's.
     public Boolean equal(int x, int y)
     {
         if (x == _x && y == _y)
@@ -26,6 +31,17 @@ public class GridReference
             return true;
         }
         else 
+        {
+            return false;
+        }
+    }
+    public Boolean equal(GridReference coords)
+    {
+        if (coords.getX() == _x && coords.getY() == _y)
+        {
+            return true;
+        }
+        else
         {
             return false;
         }

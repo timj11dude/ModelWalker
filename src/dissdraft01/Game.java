@@ -11,12 +11,14 @@ public class Game
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
+    public static final int GRID_HEIGHT = 10;
+    public static final int GRID_LENGTH = 10;
 
     public void run() throws InterruptedException
     {
-        grid = new Grid(9, 9);
+        grid = new Grid();
         growthAmount = 1;
-        display = new DisplayOut(grid.getGridLength(), grid.getGridHeight());
+        display = new DisplayOut(GRID_HEIGHT, GRID_LENGTH);
         for (int i = 0; i < 40; i++)
         {
             System.out.println("Update cycle:" + i);
