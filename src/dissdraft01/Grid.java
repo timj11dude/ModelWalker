@@ -30,7 +30,7 @@ public class Grid
         units = new Unit[1];
         for (int i = 0; i < units.length; i++)
         {
-            units[i] = new Unit(new GridReference(5, 0), new GridReference(19, 19));
+            units[i] = new Unit(new GridReference(5, 0), new GridReference(8, 8));
         }
         /*for (int i = 0; i < grassPatches.length; i++)
         {
