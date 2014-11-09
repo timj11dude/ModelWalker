@@ -8,19 +8,22 @@ package dissdraft01;
  */
 public class DisplayOut
 {
-    //Point2D newPoint;
-    int width;
-    int height;
-    public DisplayOut(int width, int height)
+    public DisplayOut()
     {
-        this.width = width;
-        this.height = height;
     }
+    /**
+     * Takes the updated grid object and extracts the current location
+     * of any Units and where there are no Units, take the current GrassPatch height.
+     * Currently Displays out to the Console Output. May display poorly under
+     * certain circumstances.
+     * @param grid
+     * @throws InterruptedException 
+     */
     public void update(Grid grid) throws InterruptedException
     {
-        for (int row = 0; row < height; row++)
+        for (int row = 0; row < Game.GRID_HEIGHT; row++)
         {
-            for (int col = 0; col < width; col++)
+            for (int col = 0; col < Game.GRID_LENGTH; col++)
             {
                 boolean check = false;
                 for (int i = 0; i < grid.units.length; i++)

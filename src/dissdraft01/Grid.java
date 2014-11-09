@@ -7,10 +7,13 @@ package dissdraft01;
  */
 public class Grid
 {
-    //Added Commented galore 01
     protected GrassPatch[] grassPatches;
     protected Unit[] units;
 
+    /**
+     * Initialises the grid, with GrassPatch array for each position on the grid
+     * Then creates a pre-determined Unit, with current position and destination
+     */
     public Grid()
     {
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
@@ -34,6 +37,13 @@ public class Grid
         }*/
     }
 
+    /**
+     * For accessing grassPatches based on their coordinates.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @exception NullPointerException()
+     * @return GrassPatch
+     */
     public GrassPatch getGrass(int x, int y)
     {
         for (int i = 0; i < this.grassPatches.length; i++)
@@ -43,21 +53,44 @@ public class Grid
                 return this.grassPatches[i];
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
-    public Unit getUnits(int i)
+    /**
+     * For accessing Units based on their coordinates
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return Unit
+     * @exception NullPointerException()
+     */
+    public Unit getUnits(int x, int y)
     {
-        return units[i];
+        for (int i = 0; i < this.units.length; i++)
+        {
+            if (this.units[i].equal(x, y))
+            {
+                return this.units[i];
+            }
+        }
+        throw new NullPointerException();
     }
 
+    /**
+     * Generates a string describing the current object and the number of
+     * GrassPatches and Units are contained within.
+     * @return String
+     */
     public String toString()
     {
-        return getClass().getName() + "[Game.GRID_HEIGHT=" + Game.GRID_HEIGHT+ ", Game.GRID_LENGTH=" + Game.GRID_LENGTH+ "]";
+        return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + units.length+ "]";
     }
 
+    /**
+     * Generates a list-able/comparable string of the current object.
+     * @return string
+     */
     public String format()
     {
-        return String.format("%/t%/t/", Game.GRID_HEIGHT, Game.GRID_LENGTH);
+        return String.format("%/t%/t/", grassPatches.length, units.length);
     }
 }

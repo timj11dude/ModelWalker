@@ -14,11 +14,17 @@ public class Game
     public static final int GRID_HEIGHT = 10;
     public static final int GRID_LENGTH = 10;
 
+    /**
+     * Initialises the grid object, the display object and sets the growth amount.
+     * It then begins a set number update cycles print the current update cycle #.
+     * Running the update() method for the grid as well as the display.
+     * @throws InterruptedException 
+     */
     public void run() throws InterruptedException
     {
         grid = new Grid();
         growthAmount = 1;
-        display = new DisplayOut(GRID_HEIGHT, GRID_LENGTH);
+        display = new DisplayOut();
         for (int i = 0; i < 40; i++)
         {
             System.out.println("Update cycle:" + i);
@@ -27,6 +33,12 @@ public class Game
         }
     }
 
+    /**
+     * Informs all grassPatches to run their growth methods.
+     * Informs all Units to attempt to move, if not, print a message.
+     * Should a unit successfully move, apply the trample method to the grassPatch
+     * at its current location.
+     */
     public void update()
     {
         //Tell all grass patches to grow.

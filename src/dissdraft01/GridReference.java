@@ -11,7 +11,12 @@ public class GridReference
 
     private int _x;
     private int _y;
-    
+    /**
+     * Takes the integers provided and checks they lie within the grid.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @exception NullPointerException
+     */
     public GridReference(int x, int y)
     {
         //Check that the attempted grid reference is within the defined grid size
@@ -23,7 +28,13 @@ public class GridReference
         _y = y;
     }
     
-    //Returns a Boolean if the provided integer coordsinate match this's.
+    /**
+     * Provides a means of comparing the input coordinates,
+     * and checking if they are equal to the coordinates of the object.
+     * @param x Integer
+     * @param y Integer
+     * @return Boolean
+     */
     public Boolean equal(int x, int y)
     {
         if (x == _x && y == _y)
@@ -35,6 +46,12 @@ public class GridReference
             return false;
         }
     }
+    /**
+     * Provides a means of comparing the input coordinates,
+     * and checking if they are equal to the coordinates of the object.
+     * @param coords GridReference
+     * @return Boolean
+     */
     public Boolean equal(GridReference coords)
     {
         if (coords.getX() == _x && coords.getY() == _y)
@@ -47,26 +64,46 @@ public class GridReference
         }
     }
 
+    /**
+     * Generates a string of the current coordinates of the object
+     * @return String
+     */
     public String gridCoord()
     {
         return this._x + "," + this._y;
     }
 
+    /**
+     * Returns the X coordinate of the object
+     * @return Integer
+     */
     public int getX()
     {
         return _x;
     }
 
+    /**
+     * Returns the Y coordinate of the object
+     * @return Integer
+     */
     public int getY()
     {
         return _y;
     }
 
+    /**
+     * Sets a new X coordinate
+     * @param newX int
+     */
     public void setX(int newX)
     {
         this._x = newX;
     }
 
+    /**
+     * Sets a new Y coordinate
+     * @param newY  int
+     */
     public void setY(int newY)
     {
         this._y = newY;
