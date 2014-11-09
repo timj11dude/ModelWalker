@@ -7,21 +7,16 @@ package dissdraft01;
  */
 public class Grid
 {
-
-    protected int gridHeight;
-    protected int gridLength;
     protected GrassPatch[] grassPatches;
     protected Unit[] units;
 
-    public Grid(int height, int length)
+    public Grid()
     {
-        this.gridHeight = height;
-        this.gridLength = length;
-        grassPatches = new GrassPatch[(gridLength * gridHeight)];
+        grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
         int k = 0;
-        for (int i = 0; i < gridHeight; i++)
+        for (int i = 0; i < Game.GRID_HEIGHT; i++)
         {
-            for (int j = 0; j < gridLength; j++)
+            for (int j = 0; j < Game.GRID_LENGTH; j++)
             {
                 grassPatches[k] = new GrassPatch(i, j);
                 k += 1;
@@ -57,21 +52,11 @@ public class Grid
 
     public String toString()
     {
-        return getClass().getName() + "[gridHeight=" + getGridHeight() + ", gridLength=" + getGridLength() + "]";
+        return getClass().getName() + "[Game.GRID_HEIGHT=" + Game.GRID_HEIGHT+ ", Game.GRID_LENGTH=" + Game.GRID_LENGTH+ "]";
     }
 
     public String format()
     {
-        return String.format("%/t%/t/", getGridHeight(), getGridLength());
-    }
-
-    public int getGridHeight()
-    {
-        return this.gridHeight;
-    }
-
-    public int getGridLength()
-    {
-        return this.gridLength;
+        return String.format("%/t%/t/", Game.GRID_HEIGHT, Game.GRID_LENGTH);
     }
 }
