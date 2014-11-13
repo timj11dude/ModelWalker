@@ -42,6 +42,6 @@ public class DisplayOut
             }
             System.out.println();
         }
-        Thread.sleep(100);
+        Thread.sleep(1000);
     }
 }
