@@ -8,6 +8,8 @@ package dissdraft01;
 public class Unit extends GridReference
 {
     protected GridReference dest;
+    protected GridReference start;
+    private double grad;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -18,7 +20,8 @@ public class Unit extends GridReference
     public Unit(int corX, int corY, GridReference dest)
     {
         super(corX, corY);
-        this.dest = dest;
+        this.start = new GridReference(corX, corY);
+        setDest(dest);
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -29,6 +32,8 @@ public class Unit extends GridReference
     {
         super(coords.getX(), coords.getY());
         this.dest = dest;
+        this.start = coords;
+        setDest(dest);
     }
     
     /**
@@ -47,6 +52,8 @@ public class Unit extends GridReference
     public void setDest(GridReference dest)
     {
         this.dest = dest;
+        //System.out.println("Start Gradient:"+(Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()))+"| Start Coords:"+this.gridCoord()+"| Dest Coords:"+dest.gridCoord());
+        this.grad = (Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()));
     }
 
     /**
@@ -56,11 +63,11 @@ public class Unit extends GridReference
      */
     public Boolean Move()
     {
-        //System.out.println("My current coords are:" + this);
+        System.out.println("My current coords are:" + this.gridCoord());
         /*
          *Check if Unit is at it's destination
          */
-        System.out.println(this.gridCoord());
+        //System.out.println(this.gridCoord());
         if (this.getX() == dest.getX() && this.getY() == dest.getY())
         {
             return false;
@@ -75,9 +82,14 @@ public class Unit extends GridReference
             {
                 for (int y = -1; y < 2; y++)
                 {
-                    double testLength = heuristic((this.getX() + x), (this.getY() + y));
-                    if (testLength < shortest) {
-                        shortest = testLength;
+                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
+                    double testLength = heuristicDist((this.getX() + x), (this.getY() + y));
+                    double testGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
+                    double testWeight = testLength * 0.5 + testGrad * 0.5;
+                    if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
+                    //System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Weighted:"+testWeight);
+                    if (testWeight < shortest) {
+                        shortest = testWeight;
                         try
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
@@ -89,16 +101,23 @@ public class Unit extends GridReference
                     }
                 }
             }
+            System.out.println("NewPosition:"+pos.gridCoord());
             this.setX(pos.getX());
             this.setY(pos.getY());
             return true;
         }
     }
-    private double heuristic(int x, int y)
+    private double heuristicGrad(int x, int y)
     {
-        double D = 1.0;
-        double dx = Math.abs(x - dest.getX());
-        double dy = Math.abs(y - dest.getY());
-        return D = D * (dx + dy);
+        double curGrad = (double)Math.abs(dest.getY() - y) / (double)Math.abs(dest.getX() - x);
+        //System.out.println("CurGrad:"+curGrad+"| staGrad:"+this.grad);
+        if (Double.isInfinite(Math.abs(curGrad - this.grad)))
+        { return 0;
+        }
+        return Math.abs(curGrad - this.grad);
+    }
+    private double heuristicDist(int x, int y)
+    {
+        return Math.sqrt(Math.pow((dest.getX() - (double)x), 2) + Math.pow((dest.getY() - (double)y), 2));
     }
 }

@@ -1,5 +1,8 @@
 package dissdraft01;
 
+import static dissdraft01.Game.GRID_HEIGHT;
+import static dissdraft01.Game.GRID_LENGTH;
+
 /**
  * Timothy Jacobson
  *
@@ -29,7 +32,7 @@ public class Grid
         units = new Unit[1];
         for (int i = 0; i < units.length; i++)
         {
-            units[i] = new Unit(new GridReference(5, 0), new GridReference(9, 8));
+            units[i] = new Unit(new GridReference(5, 0), new GridReference(10, 19));
         }
         /*for (int i = 0; i < grassPatches.length; i++)
         {

@@ -11,8 +11,8 @@ public class Game
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
-    public static final int GRID_HEIGHT = 10;
-    public static final int GRID_LENGTH = 10;
+    public static final int GRID_HEIGHT = 20;
+    public static final int GRID_LENGTH = 20;
 
     /**
      * Initialises the grid object, the display object and sets the growth amount.
@@ -30,6 +30,7 @@ public class Game
             System.out.println("Update cycle:" + i);
             update();
             display.update(grid);
+            System.out.println("---------------------------------");
         }
     }
 

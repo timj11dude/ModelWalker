@@ -1,5 +1,8 @@
 package dissdraft01;
 
+import static dissdraft01.Game.GRID_HEIGHT;
+import static dissdraft01.Game.GRID_LENGTH;
+
 
 /**
  * Timothy Jacobson
@@ -21,14 +24,14 @@ public class DisplayOut
      */
     public void update(Grid grid) throws InterruptedException
     {
-        for (int row = 0; row < Game.GRID_HEIGHT; row++)
+        for (int row = 0; row < GRID_HEIGHT; row++)
         {
-            for (int col = 0; col < Game.GRID_LENGTH; col++)
+            for (int col = 0; col < GRID_LENGTH; col++)
             {
                 boolean check = false;
                 for (int i = 0; i < grid.units.length; i++)
                 {
-                    if ((grid.units[i].gridCoord().equals(row + "," + col)) && (check == false))
+                    if ((grid.units[i].gridCoord().equals(col + "," + row)) && (check == false))
                     {
                         System.out.print("X");
                         check = true;
@@ -36,7 +39,7 @@ public class DisplayOut
                 }
                 if (check == false)
                 {
-                    System.out.print(grid.getGrass(row, col).curHeight);
+                    System.out.print(grid.getGrass(col, row).curHeight);
                 }
                 
             }
