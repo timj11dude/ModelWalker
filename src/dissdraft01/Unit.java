@@ -10,6 +10,7 @@ public class Unit extends GridReference
     protected GridReference dest;
     protected GridReference start;
     private double grad;
+    private int grassHeight;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -61,9 +62,10 @@ public class Unit extends GridReference
      * Should it's current position, natch it's destination, then returns false.
      * @return Boolean
      */
-    public Boolean Move()
+    public Boolean Move(int newGrass)
     {
-        System.out.println("My current coords are:" + this.gridCoord());
+        this.grassHeight = newGrass;
+        //System.out.println("My current coords are:" + this.gridCoord());
         /*
          *Check if Unit is at it's destination
          */
@@ -77,6 +79,9 @@ public class Unit extends GridReference
             *Check if the distance is shortest in which cell near the Unit
             */
             double shortest = Double.MAX_VALUE;
+            double larLength = 0; double smalLength = Double.MAX_VALUE;
+            double larGrad = 0; double smalGrad = Double.MAX_VALUE;
+            double larGrass = 0; double smalGrass = Double.MAX_VALUE;
             GridReference pos = new GridReference(0,0);
             for (int x = -1; x < 2; x++)
             {
@@ -85,7 +90,8 @@ public class Unit extends GridReference
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
                     double testLength = heuristicDist((this.getX() + x), (this.getY() + y));
                     double testGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
-                    double testWeight = testLength * 0.5 + testGrad * 0.5;
+                    double testGras = heuristicGrass();
+                    double testWeight = testLength * 0.2 + testGrad * 0.3 + testGras * 0.5;
                     if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
                     //System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Weighted:"+testWeight);
                     if (testWeight < shortest) {
@@ -101,7 +107,7 @@ public class Unit extends GridReference
                     }
                 }
             }
-            System.out.println("NewPosition:"+pos.gridCoord());
+            //System.out.println("NewPosition:"+pos.gridCoord());
             this.setX(pos.getX());
             this.setY(pos.getY());
             return true;
@@ -119,5 +125,9 @@ public class Unit extends GridReference
     private double heuristicDist(int x, int y)
     {
         return Math.sqrt(Math.pow((dest.getX() - (double)x), 2) + Math.pow((dest.getY() - (double)y), 2));
+    }
+    private double heuristicGrass()
+    {
+        return (double)this.grassHeight;
     }
 }

@@ -27,7 +27,7 @@ public class Game
         grid = new Grid();
         growthAmount = 1;
         display = new DisplayOut();
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 100; i++)
         {
             System.out.println("Update cycle:" + i);
             update();
@@ -48,22 +48,23 @@ public class Game
         //Tell all grass patches to grow.
         for (int i = 0; i < grid.grassPatches.length; i++)
         {
-            grid.grassPatches[i].Grow(growthAmount);
+            grid.grassPatches[i].grow(growthAmount);
         }
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.units.size(); x++)
         {
-            if (!grid.units.get(x).Move() == true)
+            if (!grid.units.get(x).Move(grid.getGrass(grid.units.get(x).getX(),grid.units.get(x).getY()).getCurHeight()) == true)
             {
                 grid.units.remove(x);
-                grid.addUnits();
+                //grid.addUnits();
             }
             else
             {
-                grid.getGrass(grid.units.get(x).getX(), grid.units.get(x).getY()).Trample(5);
+                //grid.getGrass(grid.units.get(x).getX(), grid.units.get(x).getY()).trample(1);
+                grid.spreadTrample(grid.units.get(x).getX(), grid.units.get(x).getY());
             }
         }
-        if (random.nextInt(10)== 0)
+        if (random.nextInt(4)== 0)
         {
             grid.addUnits();
         }

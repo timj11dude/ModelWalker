@@ -63,7 +63,7 @@ public class GrassPatch extends GridReference
      * Hard coded 50% chance the grass will grow or not.
      * @param growth Amount grass should grow at
      */
-    public void Grow(int growth)
+    public void grow(int growth)
     {
         if (random.nextBoolean())
         {
@@ -79,7 +79,7 @@ public class GrassPatch extends GridReference
      * Decreases the height of the grass by the input amount
      * @param stomp Integer
      */
-    public void Trample(int stomp)
+    public void trample(int stomp)
     {
         this.curHeight -= stomp;
         if (curHeight < 0)

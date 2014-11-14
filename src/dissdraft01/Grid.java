@@ -60,6 +60,25 @@ public class Grid
         Random random = new Random();
         return dest[random.nextInt(dest.length)];
     }
+    
+    
+    public void spreadTrample(int nx, int ny)
+    {
+        getGrass(nx,ny).trample(1);
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                try
+                {
+                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample((getGrass(nx,ny).maxHeight-getGrass(nx,ny).curHeight)/2);
+                }
+                catch (NullPointerException e)
+                {
+                }
+            }
+        }
+    }
     /**
      * For accessing grassPatches based on their coordinates.
      * @param x x-coordinate
