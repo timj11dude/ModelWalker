@@ -2,16 +2,21 @@ package dissdraft01;
 
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_LENGTH;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Timothy Jacobson
- *
+ *http://stackoverflow.com/questions/2581972/how-can-i-make-a-resizable-array-in-java
  * @author eeue74
  */
 public class Grid
 {
     protected GrassPatch[] grassPatches;
-    protected Unit[] units;
+    protected List<Unit> units;
+    protected GridReference[] dest;
+    private GridReference defaultStart;
 
     /**
      * Initialises the grid, with GrassPatch array for each position on the grid
@@ -19,6 +24,11 @@ public class Grid
      */
     public Grid()
     {
+        dest = new GridReference[2];
+        dest[0] = new GridReference(15,18);
+        dest[1] = new GridReference(5,18);
+        defaultStart = new GridReference(10, 0);
+        
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
         int k = 0;
         for (int i = 0; i < Game.GRID_HEIGHT; i++)
@@ -29,17 +39,27 @@ public class Grid
                 k += 1;
             }
         }
-        units = new Unit[1];
-        for (int i = 0; i < units.length; i++)
-        {
-            units[i] = new Unit(new GridReference(5, 0), new GridReference(10, 19));
-        }
+        units = new ArrayList<Unit>();
+        addUnits(defaultStart, randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
             System.out.println(i + ":" + grassPatches[i]);
         }*/
     }
 
+    public Boolean addUnits(GridReference coord, GridReference dest)
+    {
+        return units.add(new Unit(coord, dest));
+    }
+    public Boolean addUnits()
+    {
+        return units.add(new Unit(defaultStart, randDest()));
+    }
+    private GridReference randDest()
+    {
+        Random random = new Random();
+        return dest[random.nextInt(dest.length)];
+    }
     /**
      * For accessing grassPatches based on their coordinates.
      * @param x x-coordinate
@@ -68,11 +88,11 @@ public class Grid
      */
     public Unit getUnits(int x, int y)
     {
-        for (int i = 0; i < this.units.length; i++)
+        for (int i = 0; i < this.units.size(); i++)
         {
-            if (this.units[i].equal(x, y))
+            if (this.units.get(i).equal(x, y))
             {
-                return this.units[i];
+                return this.units.get(i);
             }
         }
         throw new NullPointerException();
@@ -85,7 +105,7 @@ public class Grid
      */
     public String toString()
     {
-        return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + units.length+ "]";
+        return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + units.size()+ "]";
     }
 
     /**
@@ -94,6 +114,6 @@ public class Grid
      */
     public String format()
     {
-        return String.format("%/t%/t/", grassPatches.length, units.length);
+        return String.format("%/t%/t/", grassPatches.length, units.size());
     }
 }

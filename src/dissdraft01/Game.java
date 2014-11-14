@@ -1,5 +1,7 @@
 package dissdraft01;
 
+import java.util.Random;
+
 /**
  * Timothy Jacobson
  *
@@ -42,24 +44,29 @@ public class Game
      */
     public void update()
     {
+        Random random = new Random();
         //Tell all grass patches to grow.
         for (int i = 0; i < grid.grassPatches.length; i++)
         {
             grid.grassPatches[i].Grow(growthAmount);
         }
         //Tell all Units to run a cylce of their move method's
-        for (int x = 0; x < grid.units.length; x++)
+        for (int x = 0; x < grid.units.size(); x++)
         {
-            if (!grid.units[x].Move() == true)
+            if (!grid.units.get(x).Move() == true)
             {
-                System.out.println("Unit finished!");
+                grid.units.remove(x);
+                grid.addUnits();
             }
             else
             {
-                grid.getGrass(grid.units[x].getX(), grid.units[x].getY()).Trample(5);
+                grid.getGrass(grid.units.get(x).getX(), grid.units.get(x).getY()).Trample(5);
             }
         }
-        
+        if (random.nextInt(10)== 0)
+        {
+            grid.addUnits();
+        }
     }
 
 }
