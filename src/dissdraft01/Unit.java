@@ -10,7 +10,13 @@ public class Unit extends GridReference
     protected GridReference dest;
     protected GridReference start;
     private double grad;
-    private int grassHeight;
+    private GrassPatch[] grassPatches;
+    private double larLength = 0;
+    private double smalLength = Double.MAX_VALUE;
+    private double larGrad = 0; 
+    private double smalGrad = Double.MAX_VALUE;
+    private double larGrass = 0;
+    private double smalGrass = Double.MAX_VALUE;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -62,9 +68,9 @@ public class Unit extends GridReference
      * Should it's current position, natch it's destination, then returns false.
      * @return Boolean
      */
-    public Boolean Move(int newGrass)
+    public Boolean Move(GrassPatch[] gp)
     {
-        this.grassHeight = newGrass;
+        grassPatches = gp;
         //System.out.println("My current coords are:" + this.gridCoord());
         /*
          *Check if Unit is at it's destination
@@ -79,21 +85,20 @@ public class Unit extends GridReference
             *Check if the distance is shortest in which cell near the Unit
             */
             double shortest = Double.MAX_VALUE;
-            double larLength = 0; double smalLength = Double.MAX_VALUE;
-            double larGrad = 0; double smalGrad = Double.MAX_VALUE;
-            double larGrass = 0; double smalGrass = Double.MAX_VALUE;
+            updateScale();
             GridReference pos = new GridReference(0,0);
             for (int x = -1; x < 2; x++)
             {
                 for (int y = -1; y < 2; y++)
                 {
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    double testLength = heuristicDist((this.getX() + x), (this.getY() + y));
-                    double testGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
-                    double testGras = heuristicGrass();
-                    double testWeight = testLength * 0.2 + testGrad * 0.3 + testGras * 0.5;
+                    double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
+                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
+                    double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
+                    double testWeight = testLength * 0.9 + testGrad * 0.05 + testGras * 0.05;
+                    
                     if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
-                    //System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Weighted:"+testWeight);
+                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
                     if (testWeight < shortest) {
                         shortest = testWeight;
                         try
@@ -126,8 +131,61 @@ public class Unit extends GridReference
     {
         return Math.sqrt(Math.pow((dest.getX() - (double)x), 2) + Math.pow((dest.getY() - (double)y), 2));
     }
-    private double heuristicGrass()
+    private double heuristicGrass(int x, int y)
     {
-        return (double)this.grassHeight;
+        if (this.equal(x, y)) { return Double.MAX_VALUE; }
+        for (GrassPatch gp: grassPatches)
+        {
+            if (gp.equal(x, y))
+            {
+                return gp.getCurHeight();
+            }
+        }
+        return Double.MAX_VALUE;
+    }
+    private void updateScale()
+    {
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                if (smalLength > heuristicDist((this.getX() + x), (this.getY() + y)))
+                {
+                    smalLength = heuristicDist((this.getX() + x), (this.getY() + y));
+                }
+                if (larLength < heuristicDist((this.getX() + x), (this.getY() + y)))
+                {
+                    larLength = heuristicDist((this.getX() + x), (this.getY() + y));
+                }
+                if (smalGrad > heuristicGrad((this.getX() + x), (this.getY() + y)))
+                {
+                    smalGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
+                }
+                if (larGrad < heuristicGrad((this.getX() + x), (this.getY() + y)))
+                {
+                    larGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
+                }
+                if (smalGrass > heuristicGrass((this.getX() + x), (this.getY() + y)))
+                {
+                    smalGrass = heuristicGrass((this.getX() + x), (this.getY() + y));
+                }
+                if (larGrass < heuristicGrass((this.getX() + x), (this.getY() + y)))
+                {
+                    larGrass = heuristicGrass((this.getX() + x), (this.getY() + y));
+                }
+            }
+        }
+    }
+    /**
+     * @return Scale value out of the degree between best and worst option of it's type.
+     */
+    private double checkScale(int type, double value)
+    {
+        switch (type){
+            case 0: return ((value - smalLength) / (larLength - smalLength)) * 100;
+            case 1: return ((value - smalGrad) / (larGrad - smalGrad)) * 100;
+            case 2: return ((value - smalGrass) / (larGrass - smalGrass)) * 100;
+        }
+        return 100;
     }
 }

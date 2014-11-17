@@ -71,7 +71,7 @@ public class Grid
             {
                 try
                 {
-                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample((getGrass(nx,ny).maxHeight-getGrass(nx,ny).curHeight)/2);
+                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample(1);
                 }
                 catch (NullPointerException e)
                 {

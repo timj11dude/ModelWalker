@@ -53,7 +53,7 @@ public class Game
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.units.size(); x++)
         {
-            if (!grid.units.get(x).Move(grid.getGrass(grid.units.get(x).getX(),grid.units.get(x).getY()).getCurHeight()) == true)
+            if (!grid.units.get(x).Move(grid.grassPatches) == true)
             {
                 grid.units.remove(x);
                 //grid.addUnits();
