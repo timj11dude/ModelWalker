@@ -29,9 +29,9 @@ public class DisplayOut
             for (int col = 0; col < GRID_LENGTH; col++)
             {
                 boolean check = false;
-                for (int i = 0; i < grid.units.size(); i++)
+                for (int i = 0; i < grid.walkers.size(); i++)
                 {
-                    if ((grid.units.get(i).gridCoord().equals(col + "," + row)) && (check == false))
+                    if ((grid.walkers.get(i).gridCoord().equals(col + "," + row)) && (check == false))
                     {
                         System.out.print("X");
                         check = true;

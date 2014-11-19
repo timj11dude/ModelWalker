@@ -14,7 +14,7 @@ import java.util.Random;
 public class Grid
 {
     protected GrassPatch[] grassPatches;
-    protected List<Unit> units;
+    protected List<Walker> walkers;
     protected GridReference[] dest;
     private GridReference defaultStart;
 
@@ -39,7 +39,7 @@ public class Grid
                 k += 1;
             }
         }
-        units = new ArrayList<Unit>();
+        walkers = new ArrayList<Walker>();
         addUnits(defaultStart, randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
@@ -49,11 +49,11 @@ public class Grid
 
     public Boolean addUnits(GridReference coord, GridReference dest)
     {
-        return units.add(new Unit(coord, dest));
+        return walkers.add(new Walker(coord, dest, this));
     }
     public Boolean addUnits()
     {
-        return units.add(new Unit(defaultStart, randDest()));
+        return walkers.add(new Walker(defaultStart, randDest(), this));
     }
     private GridReference randDest()
     {
@@ -105,13 +105,13 @@ public class Grid
      * @return Unit
      * @exception NullPointerException()
      */
-    public Unit getUnits(int x, int y)
+    public Walker getUnits(int x, int y)
     {
-        for (int i = 0; i < this.units.size(); i++)
+        for (int i = 0; i < this.walkers.size(); i++)
         {
-            if (this.units.get(i).equal(x, y))
+            if (this.walkers.get(i).equal(x, y))
             {
-                return this.units.get(i);
+                return this.walkers.get(i);
             }
         }
         throw new NullPointerException();
@@ -124,7 +124,7 @@ public class Grid
      */
     public String toString()
     {
-        return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + units.size()+ "]";
+        return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + walkers.size()+ "]";
     }
 
     /**
@@ -133,6 +133,6 @@ public class Grid
      */
     public String format()
     {
-        return String.format("%/t%/t/", grassPatches.length, units.size());
+        return String.format("%/t%/t/", grassPatches.length, walkers.size());
     }
 }

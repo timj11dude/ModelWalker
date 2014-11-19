@@ -5,12 +5,12 @@ package dissdraft01;
  *
  * @author eeue74
  */
-public class Unit extends GridReference
+public class Walker extends GridReference
 {
     protected GridReference dest;
     protected GridReference start;
     private double grad;
-    private GrassPatch[] grassPatches;
+    private Grid grid;
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
     private double larGrad = 0; 
@@ -24,23 +24,25 @@ public class Unit extends GridReference
      * @param corY Integer
      * @param dest GridReference
      */
-    public Unit(int corX, int corY, GridReference dest)
+    public Walker(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY);
         this.start = new GridReference(corX, corY);
         setDest(dest);
+        this.grid = grid;
     }
     /**
      * Initialises a new Unit, with current position and destination.
      * @param coords GridReference
      * @param dest GridReference
      */
-    public Unit(GridReference coords, GridReference dest)
+    public Walker(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords.getX(), coords.getY());
         this.dest = dest;
         this.start = coords;
         setDest(dest);
+        this.grid = grid;
     }
     
     /**
@@ -68,9 +70,8 @@ public class Unit extends GridReference
      * Should it's current position, natch it's destination, then returns false.
      * @return Boolean
      */
-    public Boolean Move(GrassPatch[] gp)
+    public Boolean Move()
     {
-        grassPatches = gp;
         //System.out.println("My current coords are:" + this.gridCoord());
         /*
          *Check if Unit is at it's destination
@@ -134,7 +135,7 @@ public class Unit extends GridReference
     private double heuristicGrass(int x, int y)
     {
         if (this.equal(x, y)) { return Double.MAX_VALUE; }
-        for (GrassPatch gp: grassPatches)
+        for (GrassPatch gp: grid.grassPatches)
         {
             if (gp.equal(x, y))
             {
