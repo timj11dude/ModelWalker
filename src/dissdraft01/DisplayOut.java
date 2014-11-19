@@ -2,6 +2,8 @@ package dissdraft01;
 
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_LENGTH;
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -13,6 +15,14 @@ public class DisplayOut
 {
     public DisplayOut()
     {
+        JFrame frame = new JFrame();
+        
+        final int FRAME_WIDTH = 600;
+        final int FRAME_HEIGHT = 800;
+        frame.setSize(FRAME_HEIGHT, FRAME_WIDTH);
+        frame.setTitle("Model Walker");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
     /**
      * Takes the updated grid object and extracts the current location
