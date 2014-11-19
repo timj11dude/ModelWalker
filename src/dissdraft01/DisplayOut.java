@@ -3,7 +3,6 @@ package dissdraft01;
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_LENGTH;
 import javax.swing.*;
-import java.awt.*;
 
 
 /**
