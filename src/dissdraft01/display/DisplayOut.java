@@ -1,7 +1,9 @@
-package dissdraft01;
+package dissdraft01.display;
 
+import dissdraft01.Grid;
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_LENGTH;
+import java.awt.*;
 import javax.swing.*;
 
 
@@ -12,7 +14,7 @@ import javax.swing.*;
  */
 public class DisplayOut
 {
-    public DisplayOut()
+    public DisplayOut(Grid grid)
     {
         JFrame frame = new JFrame();
         
@@ -21,7 +23,10 @@ public class DisplayOut
         frame.setSize(FRAME_HEIGHT, FRAME_WIDTH);
         frame.setTitle("Model Walker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         frame.setVisible(true);
+        frame.getContentPane().setBackground(Color.black);
+        frame.add(new GrassComponent(grid));
     }
     /**
      * Takes the updated grid object and extracts the current location
@@ -31,28 +36,13 @@ public class DisplayOut
      * @param grid
      * @throws InterruptedException 
      */
-    public void update(Grid grid) throws InterruptedException
+    public void update() throws InterruptedException
     {
         for (int row = 0; row < GRID_HEIGHT; row++)
         {
             for (int col = 0; col < GRID_LENGTH; col++)
             {
-                boolean check = false;
-                for (int i = 0; i < grid.walkers.size(); i++)
-                {
-                    if ((grid.walkers.get(i).gridCoord().equals(col + "," + row)) && (check == false))
-                    {
-                        System.out.print("X");
-                        check = true;
-                    }
-                }
-                if (check == false)
-                {
-                    System.out.print(grid.getGrass(col, row).curHeight);
-                }
-                
             }
-            System.out.println();
         }
         Thread.sleep(100);
     }

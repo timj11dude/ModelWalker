@@ -1,5 +1,6 @@
 package dissdraft01;
 
+import java.awt.Graphics2D;
 import java.util.Random;
 
 /**
@@ -120,5 +121,6 @@ public class GrassPatch extends GridReference
     {
         return this.curHeight;
     }
+    
 
 }

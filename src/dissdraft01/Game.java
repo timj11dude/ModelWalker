@@ -1,5 +1,6 @@
 package dissdraft01;
 
+import dissdraft01.display.DisplayOut;
 import java.util.Random;
 
 /**
@@ -26,12 +27,12 @@ public class Game
     {
         grid = new Grid();
         growthAmount = 1;
-        display = new DisplayOut();
-        for (int i = 0; i < 100; i++)
+        display = new DisplayOut(grid);
+        for (int i = 0; i < 1000; i++)
         {
             System.out.println("Update cycle:" + i);
             update();
-            display.update(grid);
+            //display.update(grid);
             System.out.println("---------------------------------");
         }
     }

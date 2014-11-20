@@ -97,6 +97,10 @@ public class Grid
         }
         throw new NullPointerException();
     }
+    public GrassPatch[] getGrass()
+    {
+        return grassPatches;
+    }
 
     /**
      * For accessing Units based on their coordinates
