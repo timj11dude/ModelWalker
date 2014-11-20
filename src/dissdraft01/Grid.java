@@ -25,8 +25,8 @@ public class Grid
     public Grid()
     {
         dest = new GridReference[2];
-        dest[0] = new GridReference(15,18);
-        dest[1] = new GridReference(5,18);
+        dest[0] = new GridReference(99,80);
+        dest[1] = new GridReference(99,20);
         defaultStart = new GridReference(10, 0);
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];

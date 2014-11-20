@@ -14,9 +14,11 @@ import javax.swing.*;
  */
 public class DisplayOut
 {
+    JFrame frame;
+    
     public DisplayOut(Grid grid)
     {
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         
         final int FRAME_WIDTH = 600;
         final int FRAME_HEIGHT = 800;
@@ -38,12 +40,7 @@ public class DisplayOut
      */
     public void update() throws InterruptedException
     {
-        for (int row = 0; row < GRID_HEIGHT; row++)
-        {
-            for (int col = 0; col < GRID_LENGTH; col++)
-            {
-            }
-        }
-        Thread.sleep(100);
+        frame.update(frame.getGraphics());
+        Thread.sleep(10);
     }
 }
