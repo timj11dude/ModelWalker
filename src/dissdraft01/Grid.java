@@ -25,9 +25,9 @@ public class Grid
     public Grid()
     {
         dest = new GridReference[2];
-        dest[0] = new GridReference(99,80);
-        dest[1] = new GridReference(99,20);
-        defaultStart = new GridReference(10, 0);
+        dest[0] = new GridReference(98,80);
+        dest[1] = new GridReference(98,20);
+        defaultStart = new GridReference(10, 1);
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
         int k = 0;
@@ -109,7 +109,7 @@ public class Grid
      * @return Unit
      * @exception NullPointerException()
      */
-    public Walker getUnits(int x, int y)
+    public Walker getWalkers(int x, int y)
     {
         for (int i = 0; i < this.walkers.size(); i++)
         {
@@ -119,6 +119,10 @@ public class Grid
             }
         }
         throw new NullPointerException();
+    }
+    public List<Walker> getWalkers()
+    {
+        return this.walkers;
     }
 
     /**

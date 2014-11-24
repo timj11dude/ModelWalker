@@ -28,7 +28,9 @@ public class DisplayOut
         
         frame.setVisible(true);
         frame.getContentPane().setBackground(Color.black);
-        frame.add(new GrassComponent(grid));
+
+        frame.add(new GrassComponent(grid),0);
+        frame.add(new WalkerComponent(grid),1);
     }
     /**
      * Takes the updated grid object and extracts the current location

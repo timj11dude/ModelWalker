@@ -96,7 +96,7 @@ public class Walker extends GridReference
                     double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
                     double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
                     double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.5 + testGrad * 0.45 + testGras * 0.05;
+                    double testWeight = testLength * 0.9 + testGrad * 0.00005 + testGras * 0.00005;
                     
                     if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
                     System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);

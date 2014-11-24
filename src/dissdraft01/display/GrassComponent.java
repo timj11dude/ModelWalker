@@ -38,7 +38,7 @@ public class GrassComponent extends JComponent
                 g2.setColor(Color.black);
             }
             g2.fill(rect);
-            g2.draw(rect);
+            //g2.draw(rect);
         }
     }
 }
