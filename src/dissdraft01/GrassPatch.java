@@ -13,7 +13,7 @@ public class GrassPatch extends GridReference
 
     protected int maxHeight;
     protected int curHeight;
-    private int defaultHeight = 9;
+    private int defaultHeight = 400;
     private Random random;
 
     /**
