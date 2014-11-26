@@ -24,9 +24,10 @@ public class Grid
      */
     public Grid()
     {
-        dest = new GridReference[2];
+        dest = new GridReference[3];
         dest[0] = new GridReference(98,80);
         dest[1] = new GridReference(98,20);
+        dest[2] = new GridReference(10,98);
         defaultStart = new GridReference(10, 1);
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
@@ -64,14 +65,14 @@ public class Grid
     
     public void spreadTrample(int nx, int ny)
     {
-        getGrass(nx,ny).trample(1);
+        getGrass(nx,ny).trample(2);
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
                 try
                 {
-                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample(1);
+                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample(4);
                 }
                 catch (NullPointerException e)
                 {
