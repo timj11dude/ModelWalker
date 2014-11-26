@@ -30,6 +30,11 @@ public class GridReference
         _x = x;
         _y = y;
     }
+    public GridReference()
+    {
+        _x = 0;
+        _y = 0;
+    }
     
     /**
      * Provides a means of comparing the input coordinates,
