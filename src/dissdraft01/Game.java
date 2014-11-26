@@ -28,12 +28,15 @@ public class Game
         grid = new Grid();
         growthAmount = 1;
         display = new DisplayOut(grid);
-        for (int i = 0; i < 1000; i++)
+        int i = 0;
+        while (true)
         {
             System.out.println("Update cycle:" + i);
+            System.out.println("# of Walkers:" + grid.walkers.size());
             update();
             display.update();
             System.out.println("---------------------------------");
+            i++;
         }
     }
 
@@ -54,7 +57,7 @@ public class Game
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.walkers.size(); x++)
         {
-            if (!grid.walkers.get(x).Move() == true)
+            if (!grid.walkers.get(x).moveD() == true)
             {
                 grid.walkers.remove(x);
                 //grid.addUnits();
