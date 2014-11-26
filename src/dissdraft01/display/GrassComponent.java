@@ -31,13 +31,9 @@ public class GrassComponent extends JComponent
         for (GrassPatch patch: grid.getGrass())
         {
             Rectangle rect = new Rectangle(patch.getX()*patchWidth, patch.getY()*patchHeight, patchWidth, patchHeight);
-            if (patch.getCurHeight() > patch.getMaxHeight()/2)
-            {
-                g2.setColor(Color.GREEN);
-            } else 
-            {
-                g2.setColor(Color.black);
-            }
+            
+            g2.setColor(new Color(0,(int)(((double)patch.getCurHeight() / (double)patch.getMaxHeight()) * 255),0));
+            //System.out.println((int)((double)patch.getCurHeight() / (double)patch.getMaxHeight()) * 255);
             g2.fill(rect);
             //g2.draw(rect);
         }
