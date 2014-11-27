@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE ModelWalker SYSTEM "ModelWalker.dtd">
 <ModelWalker>
-	<Destinations>
-		<Destination>
-			<xCoord></xCoord>
-			<yCoord></yCoord>
-		</Destination>
-	</Destinations>
-	<GrassPatches>
-		<GrassPatch>
-			<startCorner>
-				<xCoord></xCoord>
-				<yCoord></yCoord>
-			</startCorner>
-			<endCorner>
-				<xCoord></xCoord>
-				<yCoord></yCoord>
-			</endCorner>
-		</GrassPatch>
-	</GrassPatches>
+    <Destinations>
+        <Destination>
+            <xCoord></xCoord>
+            <yCoord></yCoord>
+        </Destination>
+    </Destinations>
+    <GrassPatches>
+        <GrassPatch>
+            <startCorner>
+                <xCoord></xCoord>
+                <yCoord></yCoord>
+            </startCorner>
+            <endCorner>
+                <xCoord></xCoord>
+                <yCoord></yCoord>
+            </endCorner>
+            <startHeight></startHeight>
+            <maxHeight></maxHeight>
+        </GrassPatch>
+    </GrassPatches>
+    <Walkers>
+        <Walker>
+            <startCoords>
+                <xCoord></xCoord>
+                <yCoord></yCoord>
+            </startCoords>
+            <startTime></startTime>
+        </Walker>
+    </Walkers>
 </ModelWalker>
