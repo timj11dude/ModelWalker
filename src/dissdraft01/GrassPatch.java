@@ -1,5 +1,6 @@
 package dissdraft01;
 
+import java.awt.Graphics2D;
 import java.util.Random;
 
 /**
@@ -12,7 +13,7 @@ public class GrassPatch extends GridReference
 
     protected int maxHeight;
     protected int curHeight;
-    private int defaultHeight = 9;
+    private int defaultHeight = 400;
     private Random random;
 
     /**
@@ -120,5 +121,6 @@ public class GrassPatch extends GridReference
     {
         return this.curHeight;
     }
+    
 
 }

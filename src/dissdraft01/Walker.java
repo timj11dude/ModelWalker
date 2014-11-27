@@ -70,7 +70,7 @@ public class Walker extends GridReference
      * Should it's current position, natch it's destination, then returns false.
      * @return Boolean
      */
-    public Boolean Move()
+    public Boolean move()
     {
         //System.out.println("My current coords are:" + this.gridCoord());
         /*
@@ -82,9 +82,6 @@ public class Walker extends GridReference
             return false;
         } else
         {        
-            /*
-            *Check if the distance is shortest in which cell near the Unit
-            */
             double shortest = Double.MAX_VALUE;
             updateScale();
             GridReference pos = new GridReference(0,0);
@@ -96,7 +93,7 @@ public class Walker extends GridReference
                     double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
                     double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
                     double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.9 + testGrad * 0.05 + testGras * 0.05;
+                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
                     
                     if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
                     System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
@@ -106,7 +103,8 @@ public class Walker extends GridReference
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
                         }
-                        catch (NullPointerException e) {
+                        catch (NullPointerException e)
+                        {
                             
                         }
                         
@@ -118,6 +116,48 @@ public class Walker extends GridReference
             this.setY(pos.getY());
             return true;
         }
+    }
+    
+    public Boolean moveD()
+    {
+        if (this.getX() == dest.getX() && this.getY() == dest.getY())
+        {
+            return false;
+        } else
+        {
+            double shortest = Double.MAX_VALUE;
+            GridReference pos = new GridReference();
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
+                    //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
+                    if (weighted((this.getX() + x), (this.getY() + y)) < shortest)
+                    {
+                        shortest = weighted((this.getX() + x), (this.getY() + y));
+                        try
+                        {
+                        pos = new GridReference((this.getX() + x), (this.getY() + y));
+                        }
+                        catch (NullPointerException e)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+            this.setX(pos.getX());
+            this.setY(pos.getY());
+            return true;
+        }
+    }
+    
+    private double weighted(int x, int y)
+    {
+        double weight = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
+        //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
+        return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
     }
     private double heuristicGrad(int x, int y)
     {
@@ -135,14 +175,14 @@ public class Walker extends GridReference
     private double heuristicGrass(int x, int y)
     {
         if (this.equal(x, y)) { return Double.MAX_VALUE; }
-        for (GrassPatch gp: grid.grassPatches)
+        try
         {
-            if (gp.equal(x, y))
-            {
-                return gp.getCurHeight();
-            }
+            return grid.getGrass(x, y).getCurHeight();
         }
-        return Double.MAX_VALUE;
+        catch (NullPointerException e)
+        {
+            return Double.MAX_VALUE;
+        }
     }
     private void updateScale()
     {
@@ -188,5 +228,46 @@ public class Walker extends GridReference
             case 2: return ((value - smalGrass) / (larGrass - smalGrass)) * 100;
         }
         return 100;
+    }
+    /**
+     * Distance from current, to target
+     * @param x Destination x coords.
+     * @param y Destination y coords.
+     * @return Distance value.
+     */
+    private double distance(int x, int y)
+    {
+        return Math.sqrt(Math.pow((double)x - getX(), 2) + Math.pow((double)y - getY(), 2));
+    }
+    /**
+     * Distance from preset, to target.
+     * @param x From x coords.
+     * @param y From y coords.
+     * @param dx Destination x coords.
+     * @param dy Destination y coords.
+     * @return Distance value.
+     */
+    private double distance(int x, int y, int dx, int dy)
+    {
+        return Math.sqrt(Math.pow((dx - (double)x), 2) + Math.pow(dy - (double)y, 2));
+    }
+    /**
+     * Distance from current coords, to target
+     * @param tar GridReference of target destination
+     * @return Distance value.
+     */
+    private double distance(GridReference tar)
+    {
+        return Math.sqrt(Math.pow((double)tar.getX() - getX(), 2) + Math.pow((double)tar.getY() - getY(), 2));
+    }
+    /**
+     * Distance from preset, to target.
+     * @param sta Preset GridReference coords.
+     * @param tar Destination GridReference coords.
+     * @return Distance value.
+     */
+    private double distance(GridReference sta, GridReference tar)
+    {
+        return Math.sqrt(Math.pow((tar.getX() - (double)sta.getX()), 2) + Math.pow(tar.getY() - (double)sta.getY(), 2));
     }
 }

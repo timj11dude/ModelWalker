@@ -1,5 +1,6 @@
 package dissdraft01;
 
+import dissdraft01.display.DisplayOut;
 import java.util.Random;
 
 /**
@@ -13,8 +14,8 @@ public class Game
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
-    public static final int GRID_HEIGHT = 20;
-    public static final int GRID_LENGTH = 20;
+    public static final int GRID_HEIGHT = 100;
+    public static final int GRID_LENGTH = 100;
 
     /**
      * Initialises the grid object, the display object and sets the growth amount.
@@ -26,13 +27,16 @@ public class Game
     {
         grid = new Grid();
         growthAmount = 1;
-        display = new DisplayOut();
-        for (int i = 0; i < 100; i++)
+        display = new DisplayOut(grid);
+        int i = 0;
+        while (true)
         {
             System.out.println("Update cycle:" + i);
+            System.out.println("# of Walkers:" + grid.walkers.size());
             update();
-            display.update(grid);
+            display.update();
             System.out.println("---------------------------------");
+            i++;
         }
     }
 
@@ -53,7 +57,7 @@ public class Game
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.walkers.size(); x++)
         {
-            if (!grid.walkers.get(x).Move() == true)
+            if (!grid.walkers.get(x).moveD() == true)
             {
                 grid.walkers.remove(x);
                 //grid.addUnits();
