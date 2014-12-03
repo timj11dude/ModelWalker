@@ -65,14 +65,14 @@ public class Grid
     
     public void spreadTrample(int nx, int ny)
     {
-        getGrass(nx,ny).trample(2);
+        getGrass(nx,ny).trample(1);
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
                 try
                 {
-                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample(4);
+                    getGrass(getGrass(nx,ny).getX()+x,getGrass(nx,ny).getY()+y).trample(1);
                 }
                 catch (NullPointerException e)
                 {
