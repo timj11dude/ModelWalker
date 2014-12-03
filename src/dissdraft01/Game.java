@@ -26,7 +26,7 @@ public class Game
     public void run() throws InterruptedException
     {
         grid = new Grid();
-        growthAmount = 1;
+        growthAmount = 0;
         display = new DisplayOut(grid);
         int i = 0;
         while (true)
@@ -60,7 +60,7 @@ public class Game
             if (!grid.walkers.get(x).moveD() == true)
             {
                 grid.walkers.remove(x);
-                //grid.addUnits();
+                grid.addUnits();
             }
             else
             {
@@ -68,7 +68,7 @@ public class Game
                 grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY());
             }
         }
-        if (random.nextInt(4)== 0)
+        if (random.nextInt(4)== 5)
         {
             grid.addUnits();
         }
