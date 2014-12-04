@@ -15,6 +15,6 @@ public class DissDraft01
     public static void main(String[] args) throws InterruptedException
     {
         Game game = new Game(); 
-        game.run();
+        game.run();  
     }
 }

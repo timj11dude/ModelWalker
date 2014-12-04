@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE ModelWalker SYSTEM "ModelWalker.dtd">
-<ModelWalker>
+<ModelWalker 
+    xmlns="http://www.w3schools.com" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="ModelWalker.xsd">
+    <Grid>
+        <Point>
+            <xCoord>20</xCoord>
+            <yCoord>20</yCoord>
+        </Point>
+    </Grid>
     <Destinations>
         <Destination>
-            <xCoord></xCoord>
-            <yCoord></yCoord>
+            <Name>A</Name>
+            <Point>
+                <xCoord></xCoord>
+                <yCoord></yCoord>
+            </Point>
         </Destination>
     </Destinations>
     <GrassPatches>
         <GrassPatch>
-            <startCorner>
-                <xCoord></xCoord>
-                <yCoord></yCoord>
-            </startCorner>
-            <endCorner>
-                <xCoord></xCoord>
-                <yCoord></yCoord>
-            </endCorner>
+            <Area>
+                <Point>
+                    <xCoord></xCoord>
+                    <yCoord></yCoord>
+                </Point>
+                <Point>
+                    <xCoord></xCoord>
+                    <yCoord></yCoord>
+                </Point>
+            </Area>
             <startHeight></startHeight>
             <maxHeight></maxHeight>
         </GrassPatch>
     </GrassPatches>
     <Walkers>
         <Walker>
-            <startCoords>
+            <Point>
                 <xCoord></xCoord>
                 <yCoord></yCoord>
-            </startCoords>
+            </Point>
             <startTime></startTime>
+            <Dest>A</Dest>
         </Walker>
     </Walkers>
 </ModelWalker>

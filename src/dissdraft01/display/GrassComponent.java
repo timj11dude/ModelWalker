@@ -5,10 +5,11 @@ import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_LENGTH;
 import dissdraft01.Grid;
 import dissdraft01.GrassPatch;
+import dissdraft01.GridReference;
 import dissdraft01.Walker;
 import java.awt.*;
 import javax.swing.*;
-
+ 
 /**
  * Timothy Jacobson
  * @author eeue74
@@ -36,6 +37,12 @@ public class GrassComponent extends JComponent
             //System.out.println((int)((double)patch.getCurHeight() / (double)patch.getMaxHeight()) * 255);
             g2.fill(rect);
             //g2.draw(rect);
+        }
+        for (GridReference dest: grid.getDestinations())
+        {
+            Rectangle rect = new Rectangle(dest.getX()*patchWidth, dest.getY()*patchHeight, patchWidth, patchHeight);
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fill(rect);
         }
         for (Walker walker: grid.getWalkers())
         {

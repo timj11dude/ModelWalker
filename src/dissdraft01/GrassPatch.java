@@ -13,7 +13,7 @@ public class GrassPatch extends GridReference
 
     protected int maxHeight;
     protected int curHeight;
-    private int defaultHeight = 100;
+    private int defaultHeight = 40;
     private Random random;
 
     /**
@@ -66,7 +66,7 @@ public class GrassPatch extends GridReference
      */
     public void grow(int growth)
     {
-        if (random.nextBoolean())
+        if (random.nextInt(5)== 0)
         {
         this.curHeight += growth;
         }
@@ -104,7 +104,7 @@ public class GrassPatch extends GridReference
         return String.format("%t/%t/", getMaxHeight(), getCurHeight());
     }
 
-    /**
+    /** 
      * Return the maximum achievable grass height
      * @return Integer
      */

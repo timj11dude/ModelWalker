@@ -10,7 +10,7 @@ import static dissdraft01.Game.GRID_LENGTH;
  * Modified for use by: Timothy Jacobson eeue74
  */
 public class GridReference
-{
+{ 
 
     private int _x;
     private int _y;

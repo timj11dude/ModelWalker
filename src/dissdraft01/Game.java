@@ -65,7 +65,7 @@ public class Game
             else
             {
                 //grid.getGrass(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()).trample(1);
-                grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY());
+                grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
             }
         }
         if (random.nextInt(4)== 5)
