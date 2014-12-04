@@ -1,5 +1,4 @@
 
-
 package dissdraft01;
 
 import java.io.File;
@@ -76,4 +75,3 @@ public class FileParser {
     }
     
 }
-
