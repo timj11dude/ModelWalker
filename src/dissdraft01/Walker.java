@@ -155,7 +155,7 @@ public class Walker extends GridReference
     
     private double weighted(int x, int y)
     {
-        double weight = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
+        double weight = Math.pow(2, distance(x, y, dest.getX(), dest.getY()) / distance(start, dest));
         //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
         return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
     }
@@ -204,16 +204,20 @@ public class Walker extends GridReference
                 }
                 if (larGrad < heuristicGrad((this.getX() + x), (this.getY() + y)))
                 {
-                    larGrad = heuristicGrad((this.getX() + x), (this.getY() + y));
+                    larGrad = Double.MAX_VALUE;
                 }
                 if (smalGrass > heuristicGrass((this.getX() + x), (this.getY() + y)))
                 {
                     smalGrass = heuristicGrass((this.getX() + x), (this.getY() + y));
                 }
-                if (larGrass < heuristicGrass((this.getX() + x), (this.getY() + y)))
+                try
                 {
-                    larGrass = heuristicGrass((this.getX() + x), (this.getY() + y));
+                larGrass = grid.getGrass(x, y).maxHeight;
                 }
+                catch (NullPointerException e)
+                {
+
+                }         
             }
         }
     }
