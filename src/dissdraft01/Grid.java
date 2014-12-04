@@ -126,6 +126,10 @@ public class Grid
         return this.walkers;
     }
 
+    public GridReference[] getDestinations()
+    {
+        return this.dest;
+    }
     /**
      * Generates a string describing the current object and the number of
      * GrassPatches and Units are contained within.
