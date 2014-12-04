@@ -11,6 +11,7 @@ public class Walker extends GridReference
     protected GridReference start;
     private double grad;
     private Grid grid;
+    private int age;
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
     private double larGrad = 0; 
@@ -30,6 +31,7 @@ public class Walker extends GridReference
         this.start = new GridReference(corX, corY);
         setDest(dest);
         this.grid = grid;
+        age=1;
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -43,6 +45,7 @@ public class Walker extends GridReference
         this.start = coords;
         setDest(dest);
         this.grid = grid;
+        age=1;
     }
     
     /**
@@ -64,7 +67,7 @@ public class Walker extends GridReference
         //System.out.println("Start Gradient:"+(Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()))+"| Start Coords:"+this.gridCoord()+"| Dest Coords:"+dest.gridCoord());
         this.grad = (Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()));
     }
- 
+
     /**
      * Attempts to move the Unit one cell towards its target.
      * Should it's current position, natch it's destination, then returns false.
@@ -72,6 +75,7 @@ public class Walker extends GridReference
      */
     public Boolean move()
     {
+        age++;
         //System.out.println("My current coords are:" + this.gridCoord());
         /*
          *Check if Unit is at it's destination
@@ -120,6 +124,7 @@ public class Walker extends GridReference
     
     public Boolean moveD()
     {
+        age++;
         if (this.getX() == dest.getX() && this.getY() == dest.getY())
         {
             return false;
@@ -135,10 +140,10 @@ public class Walker extends GridReference
                     //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
                     if (weighted((this.getX() + x), (this.getY() + y)) < shortest)
                     {
-                        shortest = weighted((this.getX() + x), (this.getY() + y));
                         try
                         {
-                        pos = new GridReference((this.getX() + x), (this.getY() + y));
+                            pos = new GridReference((this.getX() + x), (this.getY() + y));
+                            shortest = weighted((this.getX() + x), (this.getY() + y));
                         }
                         catch (NullPointerException e)
                         {
@@ -155,7 +160,12 @@ public class Walker extends GridReference
     
     private double weighted(int x, int y)
     {
-        double weight = Math.pow(2, distance(x, y, dest.getX(), dest.getY()) / distance(start, dest));
+        //Weighting based on the proximity of the destination since the start.
+        //Gets smaller the closer to the destination.
+        double weightD = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
+        double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
+        //Decrease the weight based on the age of the walker.
+        double weight = Math.min(weightD, weightT);
         //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
         return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
     }
