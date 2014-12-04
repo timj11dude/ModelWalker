@@ -155,7 +155,12 @@ public class Walker extends GridReference
     
     private double weighted(int x, int y)
     {
-        double weight = Math.pow(2, distance(x, y, dest.getX(), dest.getY()) / distance(start, dest));
+        //Weighting based on the proximity of the destination since the start.
+        //Gets smaller the closer to the destination.
+        double weightD = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
+        double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
+        //Decrease the weight based on the age of the walker.
+        double weight = Math.min(weightD, weightT);
         //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
         return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
     }
