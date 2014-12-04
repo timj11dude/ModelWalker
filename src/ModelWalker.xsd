@@ -1,0 +1,7 @@
+<?xml version="1.0">
+<xs:schema elementFormDefualt="qualified">
+    
+    <xs:element name="xCoord" type="xs:integer" default="0"/>
+    <xs:element name="yCoord" type="xs:integer" default="0"/>
+
+</xs:schema>

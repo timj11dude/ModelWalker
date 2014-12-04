@@ -1,18 +1,17 @@
 <!ELEMENT ModelWalker (Destinations,GrassPatches,Walkers)>
 
 <!ELEMENT Destinations (Destination*)>
-<!ELEMENT Destination (xCoord, yCoord)>
+<!ELEMENT Destination (Name, Point)>
 
 <!ELEMENT GrassPatches (GrassPatch*)>
-<!ELEMENT GrassPatch (startCorner,endCorner,startHeight,maxHeight)>
-<!ELEMENT startCorner (xCoord,yCoord)>
-<!ELEMENT endCorner (xCoord,yCoord)>
+<!ELEMENT GrassPatch (Area,startHeight,maxHeight)>
 
 <!ELEMENT Walkers (Walker*)>
-<!ELEMENT Walker (startCoords,startTime)>
-<!ELEMENT startCoords (xCoord,yCoord)>
+<!ELEMENT Walker (Point,startTime)>
 <!ELEMENT startTime (#PCDATA)>
 
+<!ELEMENT Point (xCoord,yCoord)>
+<!ELEMENT Area (Point,Point)>
 <!ELEMENT xCoord (#PCDATA)>
 <!ELEMENT yCoord (#PCDATA)>
 <!ELEMENT startHeight (#PCDATA)>
