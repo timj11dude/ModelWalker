@@ -31,7 +31,7 @@ public class Walker extends GridReference
         this.start = new GridReference(corX, corY);
         setDest(dest);
         this.grid = grid;
-        age=1;
+        age=0;
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -45,7 +45,7 @@ public class Walker extends GridReference
         this.start = coords;
         setDest(dest);
         this.grid = grid;
-        age=1;
+        age=0;
     }
     
     /**
@@ -140,10 +140,10 @@ public class Walker extends GridReference
                     //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
                     if (weighted((this.getX() + x), (this.getY() + y)) < shortest)
                     {
+                        shortest = weighted((this.getX() + x), (this.getY() + y));
                         try
                         {
-                            pos = new GridReference((this.getX() + x), (this.getY() + y));
-                            shortest = weighted((this.getX() + x), (this.getY() + y));
+                        pos = new GridReference((this.getX() + x), (this.getY() + y));
                         }
                         catch (NullPointerException e)
                         {
