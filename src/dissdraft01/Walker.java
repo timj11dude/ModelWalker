@@ -12,6 +12,7 @@ public class Walker extends GridReference
     private double grad;
     private Grid grid;
     private int age;
+    private int c;
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
     private double larGrad = 0; 
@@ -32,6 +33,7 @@ public class Walker extends GridReference
         setDest(dest);
         this.grid = grid;
         age=0;
+        c=10;
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -46,6 +48,7 @@ public class Walker extends GridReference
         setDest(dest);
         this.grid = grid;
         age=0;
+        c=10;
     }
     
     /**
@@ -144,6 +147,44 @@ public class Walker extends GridReference
                         try
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
+                        }
+                        catch (NullPointerException e)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+            this.setX(pos.getX());
+            this.setY(pos.getY());
+            return true;
+        }
+    }
+    
+    public Boolean moveN()
+    {
+        age++;
+        if (this.getX() == dest.getX() && this.getY() == dest.getY())
+        {
+            return false;
+        } else
+        {
+            double shortest = Double.MAX_VALUE;
+            GridReference pos = new GridReference();
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    int tX = this.getX() + x;
+                    int tY = this.getY() + y;
+                    if (tY == start.getY() && tX == start.getX() || (y==0 && x==0)) { continue; }
+                    //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
+                    if (age * heuristicDist(tX, tY) + c * heuristicGrass(tX, tY) < shortest)
+                    {
+                        try
+                        {
+                        pos = new GridReference(tX, tY);
+                        shortest = age * heuristicDist(tX, tY) + c * heuristicGrass(tX, tY);
                         }
                         catch (NullPointerException e)
                         {
