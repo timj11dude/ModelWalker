@@ -137,10 +137,10 @@ public class Walker extends GridReference
                 for (int y = -1; y < 2; y++)
                 {
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
-                    if (weighted((this.getX() + x), (this.getY() + y)) < shortest)
+                    System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
+                    if (angle((this.getX() + x), (this.getY() + y)) < shortest)
                     {
-                        shortest = weighted((this.getX() + x), (this.getY() + y));
+                        shortest = angle((this.getX() + x), (this.getY() + y));
                         try
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
@@ -158,7 +158,7 @@ public class Walker extends GridReference
         }
     }
     
-    private double weighted(int x, int y)
+    public double weighted(int x, int y)
     {
         //Weighting based on the proximity of the destination since the start.
         //Gets smaller the closer to the destination.
@@ -166,8 +166,15 @@ public class Walker extends GridReference
         double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
         //Decrease the weight based on the age of the walker.
         double weight = Math.min(weightD, weightT);
+        weight = 0;
         //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
-        return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
+        double distFromCur2Dest = distance(dest.getX(), dest.getY());
+        double distFromTar2Dest = distance(x, y, dest.getX(), dest.getY());
+        double dist2Tar = distance(x, y);
+        dist2Tar = 0;
+        
+        return (distFromCur2Dest - distFromTar2Dest - dist2Tar) + weight * heuristicGrass(x, y);
+   
     }
     private double heuristicGrad(int x, int y)
     {
@@ -249,7 +256,7 @@ public class Walker extends GridReference
      * @param y Destination y coords.
      * @return Distance value.
      */
-    private double distance(int x, int y)
+    public double distance(int x, int y)
     {
         return Math.sqrt(Math.pow((double)x - getX(), 2) + Math.pow((double)y - getY(), 2));
     }
@@ -261,7 +268,7 @@ public class Walker extends GridReference
      * @param dy Destination y coords.
      * @return Distance value.
      */
-    private double distance(int x, int y, int dx, int dy)
+    public double distance(int x, int y, int dx, int dy)
     {
         return Math.sqrt(Math.pow((dx - (double)x), 2) + Math.pow(dy - (double)y, 2));
     }
@@ -270,7 +277,7 @@ public class Walker extends GridReference
      * @param tar GridReference of target destination
      * @return Distance value.
      */
-    private double distance(GridReference tar)
+    public double distance(GridReference tar)
     {
         return Math.sqrt(Math.pow((double)tar.getX() - getX(), 2) + Math.pow((double)tar.getY() - getY(), 2));
     }
@@ -280,8 +287,27 @@ public class Walker extends GridReference
      * @param tar Destination GridReference coords.
      * @return Distance value.
      */
-    private double distance(GridReference sta, GridReference tar)
+    public double distance(GridReference sta, GridReference tar)
     {
         return Math.sqrt(Math.pow((tar.getX() - (double)sta.getX()), 2) + Math.pow(tar.getY() - (double)sta.getY(), 2));
+    }
+    public double angle(int x, int y)
+    {
+        //arcos((P122 + P132 - P232) / (2 * P12 * P13))
+        //p1 is origin
+        double P23 = distance(x, y, dest.getX(), dest.getY());
+        double P13 = distance(dest.getX(), dest.getY());
+        double P12 = distance(x, y);
+        return Math.acos((Math.pow(P12, 2) +
+                Math.pow(P13, 2) - Math.pow(P23, 2)) / (2 * P12 * P13));
+    }
+    public double angle(int x, int y, int dx, int dy)
+    {
+        //arcos((P122 + P132 - P232) / (2 * P12 * P13))
+        double P12 = distance(x, y, dx, dy);
+        double P13 = distance(dx, dy);
+        double P23 = distance(x, y);
+        return Math.acos((Math.pow(P12, 2) +
+                Math.pow(P13, 2) - Math.pow(P23, 2)) / (2 * P12 * P13));
     }
 }
