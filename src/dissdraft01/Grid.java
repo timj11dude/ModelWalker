@@ -24,10 +24,11 @@ public class Grid
      */
     public Grid()
     {
-        dest = new GridReference[3];
+        dest = new GridReference[4];
         dest[0] = new GridReference(98,80);
         dest[1] = new GridReference(98,20);
         dest[2] = new GridReference(10,98);
+        dest[3] = new GridReference(10,10);
         defaultStart = new GridReference(10, 1);
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
@@ -54,7 +55,7 @@ public class Grid
     }
     public Boolean addUnits()
     {
-        return walkers.add(new Walker(defaultStart, randDest(), this));
+        return walkers.add(new Walker(randDest(), randDest(), this));
     }
     private GridReference randDest()
     {
