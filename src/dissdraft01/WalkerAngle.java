@@ -67,62 +67,8 @@ public class WalkerAngle extends GridReference implements UnitInterface
         //System.out.println("Start Gradient:"+(Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()))+"| Start Coords:"+this.gridCoord()+"| Dest Coords:"+dest.gridCoord());
         this.grad = (Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()));
     }
-
-    /**
-     * Attempts to move the Unit one cell towards its target.
-     * Should it's current position, natch it's destination, then returns false.
-     * @return Boolean
-     */
-    public Boolean move()
-    {
-        age++;
-        //System.out.println("My current coords are:" + this.gridCoord());
-        /*
-         *Check if Unit is at it's destination
-         */
-        //System.out.println(this.gridCoord());
-        if (this.getX() == dest.getX() && this.getY() == dest.getY())
-        {
-            return false;
-        } else
-        {        
-            double shortest = Double.MAX_VALUE;
-            updateScale();
-            GridReference pos = new GridReference(0,0);
-            for (int x = -1; x < 2; x++)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
-                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
-                    double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
-                    
-                    if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
-                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
-                    if (testWeight < shortest) {
-                        shortest = testWeight;
-                        try
-                        {
-                        pos = new GridReference((this.getX() + x), (this.getY() + y));
-                        }
-                        catch (NullPointerException e)
-                        {
-                            
-                        }
-                        
-                    }
-                }
-            }
-            //System.out.println("NewPosition:"+pos.gridCoord());
-            this.setX(pos.getX());
-            this.setY(pos.getY());
-            return true;
-        }
-    }
     
-    public Boolean moveD()
+    public Boolean move()
     {
         age++;
         if (this.getX() == dest.getX() && this.getY() == dest.getY())
