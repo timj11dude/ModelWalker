@@ -137,8 +137,11 @@ public class Walker extends GridReference
                 for (int y = -1; y < 2; y++)
                 {
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
-                    if (angle((this.getX() + x), (this.getY() + y)) < shortest)
+                    double weightedResult = weighted((this.getX() + x), (this.getY() + y));
+                    double angleResult = angle((this.getX() + x), (this.getY() + y));
+                    if (angleResult > 90) { continue; }
+                    System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weightedResult);
+                    if (angleResult < shortest)
                     {
                         shortest = angle((this.getX() + x), (this.getY() + y));
                         try
@@ -291,6 +294,12 @@ public class Walker extends GridReference
     {
         return Math.sqrt(Math.pow((tar.getX() - (double)sta.getX()), 2) + Math.pow(tar.getY() - (double)sta.getY(), 2));
     }
+    /**
+     * http://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points
+     * @param x
+     * @param y
+     * @return 
+     */
     public double angle(int x, int y)
     {
         //arcos((P122 + P132 - P232) / (2 * P12 * P13))
@@ -301,6 +310,14 @@ public class Walker extends GridReference
         return Math.acos((Math.pow(P12, 2) +
                 Math.pow(P13, 2) - Math.pow(P23, 2)) / (2 * P12 * P13));
     }
+    /**
+     * http://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points
+     * @param x
+     * @param y
+     * @param dx
+     * @param dy
+     * @return 
+     */
     public double angle(int x, int y, int dx, int dy)
     {
         //arcos((P122 + P132 - P232) / (2 * P12 * P13))
