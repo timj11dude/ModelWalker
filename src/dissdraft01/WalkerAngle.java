@@ -5,7 +5,7 @@ package dissdraft01;
  *
  * @author eeue74
  */
-public class Walker extends GridReference implements UnitInterface
+public class WalkerAngle extends GridReference implements UnitInterface
 {
     protected GridReference dest;
     protected GridReference start;
@@ -25,7 +25,7 @@ public class Walker extends GridReference implements UnitInterface
      * @param corY Integer
      * @param dest GridReference
      */
-    public Walker(int corX, int corY, GridReference dest, Grid grid)
+    public WalkerAngle(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY);
         this.start = new GridReference(corX, corY);
@@ -38,7 +38,7 @@ public class Walker extends GridReference implements UnitInterface
      * @param coords GridReference
      * @param dest GridReference
      */
-    public Walker(GridReference coords, GridReference dest, Grid grid)
+    public WalkerAngle(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords.getX(), coords.getY());
         this.dest = dest;
