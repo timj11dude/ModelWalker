@@ -5,7 +5,7 @@ package dissdraft01;
  *
  * @author eeue74
  */
-public class Walker extends GridReference
+public class Walker extends GridReference implements UnitInterface
 {
     protected GridReference dest;
     protected GridReference start;
