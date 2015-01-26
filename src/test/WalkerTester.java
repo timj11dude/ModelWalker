@@ -5,7 +5,7 @@
  */
 package test;
 
-import dissdraft01.Walker;
+import dissdraft01.WalkerAngle;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
 /**
@@ -19,7 +19,7 @@ public class WalkerTester {
      */
     public static void main(String[] args) {
         Grid grid = new Grid();
-        Walker walker = new Walker(new GridReference(1, 1), new GridReference(1, 10), grid);
+        WalkerAngle walker = new WalkerAngle(new GridReference(1, 1), new GridReference(1, 10), grid);
         System.out.println("Distance to 1, 2: " +  walker.distance(1, 1, 1, 2));
         System.out.println("Distance to 2, 2: " +  walker.distance(1, 1, 2, 2));
         System.out.println("Distance to 0, 2: " +  walker.distance(1, 1, 0, 2));

@@ -14,7 +14,7 @@ import java.util.Random;
 public class Grid
 {
     protected GrassPatch[] grassPatches;
-    protected List<WalkerAngle> walkers;
+    protected List<UnitInterface> walkers;
     protected GridReference[] dest;
     private GridReference defaultStart;
 
@@ -41,7 +41,7 @@ public class Grid
                 k += 1;
             }
         }
-        walkers = new ArrayList<WalkerAngle>();
+        walkers = new ArrayList<UnitInterface>();
         addUnits(defaultStart, randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
@@ -111,7 +111,7 @@ public class Grid
      * @return Unit
      * @exception NullPointerException()
      */
-    public WalkerAngle getWalkers(int x, int y)
+    public UnitInterface getWalkers(int x, int y)
     {
         for (int i = 0; i < this.walkers.size(); i++)
         {
@@ -122,7 +122,7 @@ public class Grid
         }
         throw new NullPointerException();
     }
-    public List<WalkerAngle> getWalkers()
+    public List<UnitInterface> getWalkers()
     {
         return this.walkers;
     }
