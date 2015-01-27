@@ -5,14 +5,13 @@ package dissdraft01;
  *
  * @author eeue74
  */
-public class Walker extends GridReference
+public class WalkerAngle extends GridReference implements UnitInterface
 {
     protected GridReference dest;
     protected GridReference start;
     private double grad;
     private Grid grid;
     private int age;
-    private int c;
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
     private double larGrad = 0; 
@@ -26,21 +25,20 @@ public class Walker extends GridReference
      * @param corY Integer
      * @param dest GridReference
      */
-    public Walker(int corX, int corY, GridReference dest, Grid grid)
+    public WalkerAngle(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY);
         this.start = new GridReference(corX, corY);
         setDest(dest);
         this.grid = grid;
         age=0;
-        c=10;
     }
     /**
      * Initialises a new Unit, with current position and destination.
      * @param coords GridReference
      * @param dest GridReference
      */
-    public Walker(GridReference coords, GridReference dest, Grid grid)
+    public WalkerAngle(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords.getX(), coords.getY());
         this.dest = dest;
@@ -48,7 +46,6 @@ public class Walker extends GridReference
         setDest(dest);
         this.grid = grid;
         age=0;
-        c=10;
     }
     
     /**
@@ -70,64 +67,10 @@ public class Walker extends GridReference
         //System.out.println("Start Gradient:"+(Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()))+"| Start Coords:"+this.gridCoord()+"| Dest Coords:"+dest.gridCoord());
         this.grad = (Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()));
     }
-
-    /**
-     * Attempts to move the Unit one cell towards its target.
-     * Should it's current position, natch it's destination, then returns false.
-     * @return Boolean
-     */
+    
     public Boolean move()
     {
         age++;
-        //System.out.println("My current coords are:" + this.gridCoord());
-        /*
-         *Check if Unit is at it's destination
-         */
-        //System.out.println(this.gridCoord());
-        if (this.getX() == dest.getX() && this.getY() == dest.getY())
-        {
-            return false;
-        } else
-        {        
-            double shortest = Double.MAX_VALUE;
-            updateScale();
-            GridReference pos = new GridReference(0,0);
-            for (int x = -1; x < 2; x++)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
-                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
-                    double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
-                    
-                    if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
-                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
-                    if (testWeight < shortest) {
-                        shortest = testWeight;
-                        try
-                        {
-                        pos = new GridReference((this.getX() + x), (this.getY() + y));
-                        }
-                        catch (NullPointerException e)
-                        {
-                            
-                        }
-                        
-                    }
-                }
-            }
-            //System.out.println("NewPosition:"+pos.gridCoord());
-            this.setX(pos.getX());
-            this.setY(pos.getY());
-            return true;
-        }
-    }
-    
-    public Boolean moveD()
-    {
-        age++;
         if (this.getX() == dest.getX() && this.getY() == dest.getY())
         {
             return false;
@@ -140,10 +83,13 @@ public class Walker extends GridReference
                 for (int y = -1; y < 2; y++)
                 {
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
-                    if (weighted((this.getX() + x), (this.getY() + y)) < shortest)
+                    double weightedResult = weighted((this.getX() + x), (this.getY() + y));
+                    double angleResult = angle((this.getX() + x), (this.getY() + y));
+                    if (angleResult > 90) { continue; }
+                    System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weightedResult);
+                    if (angleResult < shortest)
                     {
-                        shortest = weighted((this.getX() + x), (this.getY() + y));
+                        shortest = angle((this.getX() + x), (this.getY() + y));
                         try
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
@@ -161,45 +107,7 @@ public class Walker extends GridReference
         }
     }
     
-    public Boolean moveN()
-    {
-        age++;
-        if (this.getX() == dest.getX() && this.getY() == dest.getY())
-        {
-            return false;
-        } else
-        {
-            double shortest = Double.MAX_VALUE;
-            GridReference pos = new GridReference();
-            for (int x = -1; x < 2; x++)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    int tX = this.getX() + x;
-                    int tY = this.getY() + y;
-                    if (tY == start.getY() && tX == start.getX() || (y==0 && x==0)) { continue; }
-                    //System.out.println("X:"+x+"Y:"+y+"| Weighted:" + weighted((this.getX() + x), (this.getY() + y)));
-                    if (age * heuristicDist(tX, tY) + c * heuristicGrass(tX, tY) < shortest)
-                    {
-                        try
-                        {
-                        pos = new GridReference(tX, tY);
-                        shortest = age * heuristicDist(tX, tY) + c * heuristicGrass(tX, tY);
-                        }
-                        catch (NullPointerException e)
-                        {
-                            
-                        }
-                    }
-                }
-            }
-            this.setX(pos.getX());
-            this.setY(pos.getY());
-            return true;
-        }
-    }
-    
-    private double weighted(int x, int y)
+    public double weighted(int x, int y)
     {
         //Weighting based on the proximity of the destination since the start.
         //Gets smaller the closer to the destination.
@@ -207,8 +115,15 @@ public class Walker extends GridReference
         double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
         //Decrease the weight based on the age of the walker.
         double weight = Math.min(weightD, weightT);
+        weight = 0;
         //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
-        return distance(x, y, dest.getX(), dest.getY()) + weight * heuristicGrass(x, y);
+        double distFromCur2Dest = distance(dest.getX(), dest.getY());
+        double distFromTar2Dest = distance(x, y, dest.getX(), dest.getY());
+        double dist2Tar = distance(x, y);
+        dist2Tar = 0;
+        
+        return (distFromCur2Dest - distFromTar2Dest - dist2Tar) + weight * heuristicGrass(x, y);
+   
     }
     private double heuristicGrad(int x, int y)
     {
@@ -290,7 +205,7 @@ public class Walker extends GridReference
      * @param y Destination y coords.
      * @return Distance value.
      */
-    private double distance(int x, int y)
+    public double distance(int x, int y)
     {
         return Math.sqrt(Math.pow((double)x - getX(), 2) + Math.pow((double)y - getY(), 2));
     }
@@ -302,7 +217,7 @@ public class Walker extends GridReference
      * @param dy Destination y coords.
      * @return Distance value.
      */
-    private double distance(int x, int y, int dx, int dy)
+    public double distance(int x, int y, int dx, int dy)
     {
         return Math.sqrt(Math.pow((dx - (double)x), 2) + Math.pow(dy - (double)y, 2));
     }
@@ -311,7 +226,7 @@ public class Walker extends GridReference
      * @param tar GridReference of target destination
      * @return Distance value.
      */
-    private double distance(GridReference tar)
+    public double distance(GridReference tar)
     {
         return Math.sqrt(Math.pow((double)tar.getX() - getX(), 2) + Math.pow((double)tar.getY() - getY(), 2));
     }
@@ -321,8 +236,41 @@ public class Walker extends GridReference
      * @param tar Destination GridReference coords.
      * @return Distance value.
      */
-    private double distance(GridReference sta, GridReference tar)
+    public double distance(GridReference sta, GridReference tar)
     {
         return Math.sqrt(Math.pow((tar.getX() - (double)sta.getX()), 2) + Math.pow(tar.getY() - (double)sta.getY(), 2));
+    }
+    /**
+     * http://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points
+     * @param x
+     * @param y
+     * @return 
+     */
+    public double angle(int x, int y)
+    {
+        //arcos((P122 + P132 - P232) / (2 * P12 * P13))
+        //p1 is origin
+        double P23 = distance(x, y, dest.getX(), dest.getY());
+        double P13 = distance(dest.getX(), dest.getY());
+        double P12 = distance(x, y);
+        return Math.acos((Math.pow(P12, 2) +
+                Math.pow(P13, 2) - Math.pow(P23, 2)) / (2 * P12 * P13));
+    }
+    /**
+     * http://stackoverflow.com/questions/1211212/how-to-calculate-an-angle-from-three-points
+     * @param x
+     * @param y
+     * @param dx
+     * @param dy
+     * @return 
+     */
+    public double angle(int x, int y, int dx, int dy)
+    {
+        //arcos((P122 + P132 - P232) / (2 * P12 * P13))
+        double P12 = distance(x, y, dx, dy);
+        double P13 = distance(dx, dy);
+        double P23 = distance(x, y);
+        return Math.acos((Math.pow(P12, 2) +
+                Math.pow(P13, 2) - Math.pow(P23, 2)) / (2 * P12 * P13));
     }
 }

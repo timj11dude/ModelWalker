@@ -24,7 +24,7 @@ public class FileParser {
     
     
     GridReference[] dests;
-    Walker[] walkers;
+    WalkerAngle[] walkers;
     GrassPatch[] patches;
     Grid grid;
     
@@ -58,11 +58,11 @@ public class FileParser {
                             "/ModelWalker/Destinations/Destination[" + i + "]/yCoord", doc)));
         }
         int numWalk = Integer.parseInt(path.evaluate("count(/ModelWalker/Walkers/Walker)",doc));
-        walkers = new Walker[numWalk];
+        walkers = new WalkerAngle[numWalk];
         for (int i = 1; i <= numWalk; i++)
         {
             walkers[i-1]
-                    = new Walker(
+                    = new WalkerAngle(
                     Integer.parseInt(
                     path.evaluate(
                     "/ModelWalker/Walkers/Walker["+i+"/Point/xCoord", doc)),

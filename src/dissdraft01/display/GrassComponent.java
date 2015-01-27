@@ -6,7 +6,8 @@ import static dissdraft01.Game.GRID_LENGTH;
 import dissdraft01.Grid;
 import dissdraft01.GrassPatch;
 import dissdraft01.GridReference;
-import dissdraft01.Walker;
+import dissdraft01.UnitInterface;
+import dissdraft01.WalkerAngle;
 import java.awt.*;
 import javax.swing.*;
  
@@ -44,7 +45,7 @@ public class GrassComponent extends JComponent
             g2.setColor(Color.LIGHT_GRAY);
             g2.fill(rect);
         }
-        for (Walker walker: grid.getWalkers())
+        for (UnitInterface walker: grid.getWalkers())
         {
             Rectangle unit = new Rectangle(walker.getX()*patchWidth, walker.getY()*patchHeight,patchWidth,patchHeight);
             g2.setColor(Color.red);
