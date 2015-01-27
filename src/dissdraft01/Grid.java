@@ -29,7 +29,7 @@ public class Grid
         dest[1] = new GridReference(98,20);
         dest[2] = new GridReference(10,98);
         dest[3] = new GridReference(10,10);
-        defaultStart = new GridReference(10, 1);
+        defaultStart = new GridReference(2, 2);
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
         int k = 0;
@@ -42,7 +42,7 @@ public class Grid
             }
         }
         walkers = new ArrayList<UnitInterface>();
-        addUnits(defaultStart, randDest());
+        addUnits(randDest(), randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
             System.out.println(i + ":" + grassPatches[i]);
