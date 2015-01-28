@@ -68,7 +68,7 @@ public class Game
                 grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
             }
         }
-        if (random.nextInt(4)== 5)
+        if (random.nextInt(40)== 0)
         {
             grid.addUnits();
         }
