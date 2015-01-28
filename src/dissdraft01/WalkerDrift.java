@@ -78,7 +78,7 @@ public class WalkerDrift extends GridReference implements UnitInterface
         //Create an array for each searched cell
         List<GridReference> posCoords = new ArrayList<GridReference>();
         posCoords = updateMap();
-        if (this.getX() == dest.getX() && this.getY() == dest.getY())
+        if (this.getX() == dest.getX() && this.getY() == dest.getY() || posCoords.size() == 0)
         {
             return false;
         } else
@@ -94,17 +94,29 @@ public class WalkerDrift extends GridReference implements UnitInterface
     {
         int s = 3;
         List<GridReference> posTar = new ArrayList<GridReference>();
-        for (int x = 1; x < s; x++)
+        GrassPatch g;
+        for (int x = 0; x < s; x++)
         {
-            for (int y = 1; y < s; x++)
+            for (int y = 0; y < s; y++)
             {
-                GrassPatch g = grid.getGrass(x-2, y-2);
-                if (angle(g.getX(), g.getY()) < (Math.PI / 3))
+                try
                 {
-                    posTar.add(g);
+                    g = grid.getGrass(this.getX()+(x-1), this.getY()+(y-1));
+                    double angleg = angle(g.getX(), g.getY());
+                    System.out.println("x:"+g.getX()+"y:"+g.getY()+"="+angleg + "<" + Math.PI / 2);
+                    if (angleg < (double)(Math.PI / 3))
+                    {
+                        System.out.println("TRUE");
+                        posTar.add(g);
+                    }
+                }
+                catch (NullPointerException e)
+                {
+                    continue;
                 }
             }
         }
+        System.out.println(posTar.size());
         return posTar;
     }
     
