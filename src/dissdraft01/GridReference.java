@@ -122,4 +122,9 @@ public class GridReference
     {
         return "[" + this._x + "," + this._y + "]";
     }
+    public void set(GridReference newPos)
+    {
+        this._x = newPos.getX();
+        this._y = newPos.getY();
+    }
 }
