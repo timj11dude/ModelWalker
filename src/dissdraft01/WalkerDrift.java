@@ -76,37 +76,36 @@ public class WalkerDrift extends GridReference implements UnitInterface
     {
         age++;
         //Create an array for each searched cell
-        HashMap tarCoords = new HashMap(9);
-        updateMap(tarCoords);
+        List<GridReference> posCoords = new ArrayList<GridReference>();
+        posCoords = updateMap();
         if (this.getX() == dest.getX() && this.getY() == dest.getY())
         {
             return false;
         } else
         {
-            
+            Random r = new Random();
+            int z = r.nextInt(posCoords.size());
+            this.set(posCoords.get(z));
+            return true;
         }
     }
     
-    private HashMap updateMap(HashMap tarCoords)
+    private List updateMap()
     {
-        int s = tarCoords.size();
-        try
+        int s = 3;
+        List<GridReference> posTar = new ArrayList<GridReference>();
+        for (int x = 1; x < s; x++)
         {
-            if (s % 2 != 0) {
-                throw new Exception("Search size is invalid: " + s);
+            for (int y = 1; y < s; x++)
+            {
+                GrassPatch g = grid.getGrass(x-2, y-2);
+                if (angle(g.getX(), g.getY()) < (Math.PI / 3))
+                {
+                    posTar.add(g);
+                }
             }
         }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            
-        }
-        for (int i = 0; i < (s / 2); i++)
-        {
-            
-        }
-        
-                
+        return posTar;
     }
     
     private double heuristicGrad(int x, int y)
