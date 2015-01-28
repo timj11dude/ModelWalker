@@ -51,11 +51,11 @@ public class Grid
 
     public Boolean addUnits(GridReference coord, GridReference dest)
     {
-        return walkers.add(new WalkerAngle(coord, dest, this));
+        return walkers.add(new WalkerDrift(coord, dest, this));
     }
     public Boolean addUnits()
     {
-        return walkers.add(new WalkerAngle(randDest(), randDest(), this));
+        return walkers.add(new WalkerDrift(randDest(), randDest(), this));
     }
     private GridReference randDest()
     {
