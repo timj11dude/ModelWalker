@@ -17,6 +17,8 @@ public class Grid
     protected List<UnitInterface> walkers;
     protected GridReference[] dest;
     private GridReference defaultStart;
+    private Walkers defaultWalker;
+    public static enum Walkers {DRIFT, WEIGHTED, ANGLE};
 
     /**
      * Initialises the grid, with GrassPatch array for each position on the grid
@@ -30,6 +32,7 @@ public class Grid
         dest[2] = new GridReference(10,98);
         dest[3] = new GridReference(10,10);
         defaultStart = new GridReference(2, 2);
+        defaultWalker = Walkers.DRIFT;
         
         grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
         int k = 0;
@@ -51,11 +54,29 @@ public class Grid
 
     public Boolean addUnits(GridReference coord, GridReference dest)
     {
-        return walkers.add(new WalkerDrift(coord, dest, this));
+        switch (defaultWalker) {
+            case DRIFT:
+                return walkers.add(new WalkerDrift(coord, dest, this));
+            case WEIGHTED:
+                return walkers.add(new WalkerWeighted01(coord, dest, this));
+            case ANGLE:
+                return walkers.add(new WalkerAngle(coord, dest, this));
+            default:
+                return walkers.add(new WalkerDrift(coord, dest, this));
+        }
     }
     public Boolean addUnits()
     {
-        return walkers.add(new WalkerDrift(randDest(), randDest(), this));
+        switch (defaultWalker) {
+            case DRIFT:
+                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
+            case WEIGHTED:
+                return walkers.add(new WalkerWeighted01(randDest(), randDest(), this));
+            case ANGLE:
+                return walkers.add(new WalkerAngle(randDest(), randDest(), this));
+            default:
+                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
+        }
     }
     private GridReference randDest()
     {
