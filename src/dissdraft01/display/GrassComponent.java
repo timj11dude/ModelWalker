@@ -2,7 +2,7 @@
 package dissdraft01.display;
 
 import static dissdraft01.Game.GRID_HEIGHT;
-import static dissdraft01.Game.GRID_LENGTH;
+import static dissdraft01.Game.GRID_WIDTH;
 import dissdraft01.Grid;
 import dissdraft01.GrassPatch;
 import dissdraft01.GridReference;
@@ -29,7 +29,7 @@ public class GrassComponent extends JComponent
     {
         Graphics2D g2 = (Graphics2D) g;
         patchHeight = getHeight()/GRID_HEIGHT;
-        patchWidth = getWidth()/GRID_LENGTH;
+        patchWidth = getWidth()/GRID_WIDTH;
         for (GrassPatch patch: grid.getGrass())
         {
             Rectangle rect = new Rectangle(patch.getX()*patchWidth, patch.getY()*patchHeight, patchWidth, patchHeight);

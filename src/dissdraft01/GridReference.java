@@ -1,7 +1,7 @@
 package dissdraft01;
 
 import static dissdraft01.Game.GRID_HEIGHT;
-import static dissdraft01.Game.GRID_LENGTH;
+import static dissdraft01.Game.GRID_WIDTH;
 
 /**
  * Humphrey Bogart 09/06/09
@@ -23,7 +23,7 @@ public class GridReference
     public GridReference(int x, int y)
     {
         //Check that the attempted grid reference is within the defined grid size
-        if (x > (GRID_LENGTH - 1) || y > (GRID_HEIGHT - 1) || x < 0 || y < 0)
+        if (x > (GRID_WIDTH - 1) || y > (GRID_HEIGHT - 1) || x < 0 || y < 0)
         {
             throw new NullPointerException();
         }

@@ -1,7 +1,7 @@
 package dissdraft01;
 
 import static dissdraft01.Game.GRID_HEIGHT;
-import static dissdraft01.Game.GRID_LENGTH;
+import static dissdraft01.Game.GRID_WIDTH;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,11 +34,11 @@ public class Grid
         defaultStart = new GridReference(2, 2);
         defaultWalker = Walkers.DRIFT;
         
-        grassPatches = new GrassPatch[(Game.GRID_LENGTH * Game.GRID_HEIGHT)];
+        grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
         int k = 0;
         for (int i = 0; i < Game.GRID_HEIGHT; i++)
         {
-            for (int j = 0; j < Game.GRID_LENGTH; j++)
+            for (int j = 0; j < Game.GRID_WIDTH; j++)
             {
                 grassPatches[k] = new GrassPatch(i, j);
                 k += 1;
