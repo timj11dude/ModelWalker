@@ -14,8 +14,8 @@ public class Game
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
-    public static final int GRID_HEIGHT = 100;
-    public static final int GRID_LENGTH = 100;
+    public static int GRID_HEIGHT = 100;
+    public static int GRID_WIDTH = 100;
 
     /**
      * Initialises the grid object, the display object and sets the growth amount.
