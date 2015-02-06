@@ -18,7 +18,7 @@ public class Grid
     protected GridReference[] dest;
     private GridReference defaultStart;
     private Walkers defaultWalker;
-    public static enum Walkers {DRIFT, WEIGHTED, ANGLE};
+    public static enum Walkers {DRIFT, WEIGHTED1, WEIGHTED2, ANGLE};
 
     /**
      * Initialises the grid, with GrassPatch array for each position on the grid
@@ -57,8 +57,10 @@ public class Grid
         switch (defaultWalker) {
             case DRIFT:
                 return walkers.add(new WalkerDrift(coord, dest, this));
-            case WEIGHTED:
+            case WEIGHTED1:
                 return walkers.add(new WalkerWeighted01(coord, dest, this));
+            case WEIGHTED2:
+                return walkers.add(new WalkerWeighted02(coord, dest, this));
             case ANGLE:
                 return walkers.add(new WalkerAngle(coord, dest, this));
             default:
@@ -70,8 +72,10 @@ public class Grid
         switch (defaultWalker) {
             case DRIFT:
                 return walkers.add(new WalkerDrift(randDest(), randDest(), this));
-            case WEIGHTED:
+            case WEIGHTED1:
                 return walkers.add(new WalkerWeighted01(randDest(), randDest(), this));
+            case WEIGHTED2:
+                return walkers.add(new WalkerWeighted02(randDest(), randDest(), this));
             case ANGLE:
                 return walkers.add(new WalkerAngle(randDest(), randDest(), this));
             default:
