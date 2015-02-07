@@ -1,6 +1,8 @@
 package dissdraft01;
 
 import dissdraft01.display.DisplayOut;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -29,6 +31,7 @@ public class Game
         growthAmount = 0;
         display = new DisplayOut(grid);
         int i = 0;
+        loadProps();
         while (true)
         {
             System.out.println("Update cycle:" + i);
@@ -74,4 +77,16 @@ public class Game
         }
     }
 
+    private void loadProps() {
+        try {
+            ModelProperties source = new ModelProperties();
+            System.out.println();
+            Properties props = source.getProperties();
+            Game.GRID_HEIGHT = Integer.parseInt(props.getProperty("grid.size.height"));
+            Game.GRID_WIDTH = Integer.parseInt(props.getProperty("grid.size.width"));
+        }
+        catch (IOException e) {
+            System.out.println("Error loading properties: " + e);
+        }
+    }
 }
