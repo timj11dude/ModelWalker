@@ -103,10 +103,10 @@ public class WalkerDrift extends GridReference implements UnitInterface
                 {
                     g = grid.getGrass(this.getX()+(x-1), this.getY()+(y-1));
                     double angleg = angle(g.getX(), g.getY());
-                    System.out.println("x:"+g.getX()+"y:"+g.getY()+"="+angleg + "<" + Math.PI / 2);
+                    //System.out.println("x:"+g.getX()+"y:"+g.getY()+"="+angleg + "<" + Math.PI / 2);
                     if (angleg < (double)(Math.PI / 3))
                     {
-                        System.out.println("TRUE");
+                        //System.out.println("TRUE");
                         posTar.add(g);
                     }
                 }
@@ -116,7 +116,7 @@ public class WalkerDrift extends GridReference implements UnitInterface
                 }
             }
         }
-        System.out.println(posTar.size());
+        //System.out.println(posTar.size());
         return posTar;
     }
     
