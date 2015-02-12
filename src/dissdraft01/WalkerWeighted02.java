@@ -18,6 +18,9 @@ public class WalkerWeighted02 extends GridReference implements UnitInterface
     private double smalGrad = Double.MAX_VALUE;
     private double larGrass = 0;
     private double smalGrass = Double.MAX_VALUE;
+    
+    private double grassWeight = 0.5;
+    private double distWeight = 0.5;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -68,6 +71,19 @@ public class WalkerWeighted02 extends GridReference implements UnitInterface
         this.grad = (Math.abs(dest.getY() - this.getY())) / (double)(Math.abs(dest.getX() - this.getX()));
     }
     
+    public void setGrassWeight(double x) {
+        this.grassWeight = x;
+    }
+    public void setDistWeight(double x) {
+        this.distWeight = x;
+    }
+    public double getGrassWeight() {
+        return this.grassWeight;
+    }
+    public double getDistWeight() {
+        return this.distWeight;
+    }
+    
     public Boolean move()
     {
         age++;
@@ -90,12 +106,12 @@ public class WalkerWeighted02 extends GridReference implements UnitInterface
                 {
                     if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
                     double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
-                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
+                    //double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
                     double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
+                    double testWeight = testLength * 0.0001 + testGras * 0.00005;
                     
                     if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
-                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
+                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grass:"+testGras+"| Weighted:"+testWeight);
                     if (testWeight < shortest) {
                         shortest = testWeight;
                         try
