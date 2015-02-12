@@ -34,6 +34,17 @@ public class Grid
         defaultStart = new GridReference(2, 2);
         defaultWalker = Walkers.DRIFT;
         
+        createField();
+        
+        walkers = new ArrayList<UnitInterface>();
+        addUnits(randDest(), randDest());
+        /*for (int i = 0; i < grassPatches.length; i++)
+        {
+            System.out.println(i + ":" + grassPatches[i]);
+        }*/
+    }
+    
+    private void createField() {
         grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
         int k = 0;
         for (int i = 0; i < Game.GRID_HEIGHT; i++)
@@ -44,14 +55,7 @@ public class Grid
                 k += 1;
             }
         }
-        walkers = new ArrayList<UnitInterface>();
-        addUnits(randDest(), randDest());
-        /*for (int i = 0; i < grassPatches.length; i++)
-        {
-            System.out.println(i + ":" + grassPatches[i]);
-        }*/
     }
-
     public Boolean addUnits(GridReference coord, GridReference dest)
     {
         switch (defaultWalker) {
@@ -173,5 +177,13 @@ public class Grid
     public String format()
     {
         return String.format("%/t%/t/", grassPatches.length, walkers.size());
+    }
+    
+    public void reset() {
+        grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
+        walkers.removeAll(walkers);
+        
+        createField();
+        addUnits(randDest(), randDest());
     }
 }

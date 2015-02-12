@@ -1,5 +1,6 @@
 package dissdraft01.display;
 
+import dissdraft01.Game;
 import dissdraft01.Grid;
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_WIDTH;
@@ -16,7 +17,7 @@ public class DisplayOut
 {
     JFrame frame;
     
-    public DisplayOut(Grid grid)
+    public DisplayOut(Grid grid, Game game)
     {
         frame = new JFrame();
         
@@ -28,8 +29,16 @@ public class DisplayOut
         
         frame.setVisible(true);
         frame.getContentPane().setBackground(Color.black);
-
-        frame.add(new GrassComponent(grid));
+        
+        GrassComponent grassGrid = new GrassComponent(grid);
+        JButton button = new JButton("Reset Simulation");
+        
+        button.addActionListener(game);
+        
+        frame.add(button, BorderLayout.PAGE_START);
+        frame.add(grassGrid);
+        
+        //grassGrid.
     }
     /**
      * Takes the updated grid object and extracts the current location

@@ -1,6 +1,8 @@
 package dissdraft01;
 
 import dissdraft01.display.DisplayOut;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
@@ -10,7 +12,7 @@ import java.util.Random;
  *
  * @author eeue74
  */
-public class Game
+public class Game implements ActionListener
 {
 
     protected Grid grid;
@@ -18,6 +20,7 @@ public class Game
     protected DisplayOut display;
     public static int GRID_HEIGHT = 100;
     public static int GRID_WIDTH = 100;
+    private Boolean reset = false;
 
     /**
      * Initialises the grid object, the display object and sets the growth amount.
@@ -29,7 +32,7 @@ public class Game
     {
         grid = new Grid();
         growthAmount = 0;
-        display = new DisplayOut(grid);
+        display = new DisplayOut(grid, this);
         int i = 0;
         loadProps();
         while (true)
@@ -40,6 +43,7 @@ public class Game
             display.update();
             System.out.println("---------------------------------");
             i++;
+            if (reset) {reset();}
         }
     }
 
@@ -89,4 +93,14 @@ public class Game
             System.out.println("Error loading properties: " + e);
         }
     }
+    
+    public void reset() {
+        this.grid.reset();
+        this.reset = false;
+    }
+    
+    public void actionPerformed(ActionEvent event) {
+        reset = true;
+        
+    }    
 }
