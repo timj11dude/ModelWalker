@@ -4,6 +4,7 @@ import dissdraft01.Game;
 import dissdraft01.Grid;
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_WIDTH;
+import dissdraft01.InterfaceActionListener;
 import java.awt.*;
 import javax.swing.*;
  
@@ -15,28 +16,52 @@ import javax.swing.*;
  */
 public class DisplayOut
 {
-    JFrame frame;
+    JFrame frameViewer;
+    JFrame frameController;
     
     public DisplayOut(Grid grid, Game game)
     {
-        frame = new JFrame();
+        frameViewer = new JFrame();
+        frameController = new JFrame();
         
-        final int FRAME_WIDTH = 600;
-        final int FRAME_HEIGHT = 800;
-        frame.setSize(FRAME_HEIGHT, FRAME_WIDTH);
-        frame.setTitle("Model Walker");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final int FRAME_WIDTH = 800;
+        final int FRAME_HEIGHT = 600;
+        frameViewer.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frameViewer.setTitle("Model Walker Viewer");
+        frameViewer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        frame.setVisible(true);
-        frame.getContentPane().setBackground(Color.black);
+        frameController.setSize(400, 100);
+        frameController.setTitle("Model Walker Controller");
+        frameController.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        frameViewer.setVisible(true);
+        frameViewer.getContentPane().setBackground(Color.black);
+        
+        frameController.setVisible(true);
+        frameController.getContentPane().setBackground(Color.black);
         
         GrassComponent grassGrid = new GrassComponent(grid);
-        JButton button = new JButton("Reset Simulation");
         
-        button.addActionListener(game);
+        JButton button1 = new JButton("Reset Simulation");
+        JButton button2 = new JButton("Reset Walkers");
+        JButton button3 = new JButton("Reset Grass");
+        JSlider slider1 = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         
-        frame.add(button, BorderLayout.PAGE_START);
-        frame.add(grassGrid);
+        button1.addActionListener(new InterfaceActionListener());
+        button2.addActionListener(new InterfaceActionListener());
+        button3.addActionListener(new InterfaceActionListener());
+        slider1.addChangeListener(new InterfaceActionListener());
+        
+        slider1.setMajorTickSpacing(10);
+        slider1.setMinorTickSpacing(5);
+        slider1.setPaintTicks(true);
+        slider1.setPaintLabels(true);
+        
+        frameController.add(button1, BorderLayout.CENTER);
+        frameController.add(button2, BorderLayout.EAST);
+        frameController.add(button3, BorderLayout.WEST);
+        frameController.add(slider1, BorderLayout.NORTH);
+        frameViewer.add(grassGrid);
         
         //grassGrid.
     }
@@ -50,7 +75,7 @@ public class DisplayOut
      */
     public void update() throws InterruptedException
     {
-        frame.repaint();
+        frameViewer.repaint();
         Thread.sleep(100);
     }
 }

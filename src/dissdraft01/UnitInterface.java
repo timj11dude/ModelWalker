@@ -26,7 +26,7 @@ public interface UnitInterface {
      * @param coords GridReference
      * @return Boolean
      */
-    Boolean equal(GridReference coords);
+    Boolean equals(GridReference coords);
 
     /**
      * Provides a means of comparing the input coordinates,

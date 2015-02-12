@@ -30,6 +30,11 @@ public class GridReference
         _x = x;
         _y = y;
     }
+    public GridReference(GridReference x)
+    {
+        _x = x.getX();
+        _y = x.getY();
+    }
     public GridReference()
     {
         _x = 0;
@@ -38,7 +43,7 @@ public class GridReference
     
     /**
      * Provides a means of comparing the input coordinates,
-     * and checking if they are equal to the coordinates of the object.
+ and checking if they are equal to the coordinates of the object.
      * @param x Integer
      * @param y Integer
      * @return Boolean
@@ -56,11 +61,11 @@ public class GridReference
     }
     /**
      * Provides a means of comparing the input coordinates,
-     * and checking if they are equal to the coordinates of the object.
+ and checking if they are equal to the coordinates of the object.
      * @param coords GridReference
      * @return Boolean
      */
-    public Boolean equal(GridReference coords)
+    public Boolean equals(GridReference coords)
     {
         if (coords.getX() == _x && coords.getY() == _y)
         {
@@ -71,6 +76,21 @@ public class GridReference
             return false;
         }
     }
+    @Override
+    public boolean equals(Object other)
+    {
+        GridReference tester = (GridReference)other;
+        //System.out.println("Testing: "+tester.toString());
+        if (tester.getX() == _x && tester.getY() == _y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+            
 
     /**
      * Generates a string of the current coordinates of the object

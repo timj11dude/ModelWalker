@@ -66,7 +66,7 @@ public class GrassPatch extends GridReference
      */
     public void grow(int growth)
     {
-        if (random.nextInt(5)== 0)
+        if (random.nextInt(50)== 0)
         {
         this.curHeight += growth;
         }

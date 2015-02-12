@@ -32,7 +32,7 @@ public class Grid
         dest[2] = new GridReference(10,98);
         dest[3] = new GridReference(10,10);
         defaultStart = new GridReference(2, 2);
-        defaultWalker = Walkers.DRIFT;
+        defaultWalker = Walkers.WEIGHTED2;
         
         createField();
         
@@ -179,11 +179,22 @@ public class Grid
         return String.format("%/t%/t/", grassPatches.length, walkers.size());
     }
     
-    public void reset() {
-        grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
-        walkers.removeAll(walkers);
-        
-        createField();
-        addUnits(randDest(), randDest());
+    public void reset(int x) {
+        switch (x) {
+            case 1:
+                grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
+                walkers.removeAll(walkers);
+                createField();
+                addUnits(randDest(), randDest());
+                break;
+            case 2:
+                grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
+                createField();
+                break;
+            case 3:
+                walkers.removeAll(walkers);
+                addUnits(randDest(), randDest());
+                break;
+        }
     }
 }

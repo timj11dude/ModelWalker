@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author eeue74
  */
-public class Game implements ActionListener
+public class Game
 {
 
     protected Grid grid;
@@ -20,8 +20,10 @@ public class Game implements ActionListener
     protected DisplayOut display;
     public static int GRID_HEIGHT = 100;
     public static int GRID_WIDTH = 100;
-    private Boolean reset = false;
+    private int reset = 0;
 
+    public static Game instance = null;
+    
     /**
      * Initialises the grid object, the display object and sets the growth amount.
      * It then begins a set number update cycles print the current update cycle #.
@@ -30,8 +32,9 @@ public class Game implements ActionListener
      */
     public void run() throws InterruptedException
     {
+        instance = this;
         grid = new Grid();
-        growthAmount = 0;
+        growthAmount = 1;
         display = new DisplayOut(grid, this);
         int i = 0;
         loadProps();
@@ -43,7 +46,7 @@ public class Game implements ActionListener
             display.update();
             System.out.println("---------------------------------");
             i++;
-            if (reset) {reset();}
+            if (reset != 0) {reset(reset);}
         }
     }
 
@@ -75,7 +78,7 @@ public class Game implements ActionListener
                 grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
             }
         }
-        if (random.nextInt(40)== 0)
+        if (random.nextInt(40) == 0)
         {
             grid.addUnits();
         }
@@ -94,13 +97,9 @@ public class Game implements ActionListener
         }
     }
     
-    public void reset() {
-        this.grid.reset();
-        this.reset = false;
-    }
     
-    public void actionPerformed(ActionEvent event) {
-        reset = true;
-        
-    }    
+    public void reset(int x) {
+        this.grid.reset(x);
+        this.reset = 0;
+    } 
 }
