@@ -54,4 +54,7 @@ public interface UnitInterface {
      * @return String
      */
     String gridCoord();
+    
+    int getAge();
+    double getDistRemaining();
 }
