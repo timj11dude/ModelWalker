@@ -19,9 +19,6 @@ public class Grid
     private GridReference defaultStart;
     private Walkers defaultWalker;
     public static enum Walkers {DRIFT, WEIGHTED1, WEIGHTED2, ANGLE};
-    public static Walker watch;
-    private List<Thread> threads;
-    ThreadGroup walkerGroup;
 
     /**
      * Initialises the grid, with GrassPatch array for each position on the grid
@@ -40,9 +37,6 @@ public class Grid
         createField();
         
         walkers = new ArrayList<UnitInterface>();
-        threads = new ArrayList<Thread>();
-        walkerGroup = new ThreadGroup("Walkers");
-        
         addUnits(randDest(), randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
@@ -62,17 +56,7 @@ public class Grid
             }
         }
     }
-    
-    public Boolean addUnits(GridReference coord, GridReference dest) {
-        if (addUnits2(coord, dest)) {
-            threads.add(new Thread((Runnable) walkers.get(walkers.size()-1)));
-            return true;
-        }
-
-        threads.get(threads.size()-1).start();
-        return false;
-    }
-    public Boolean addUnits2(GridReference coord, GridReference dest)
+    public Boolean addUnits(GridReference coord, GridReference dest)
     {
         switch (defaultWalker) {
             case DRIFT:
@@ -89,10 +73,19 @@ public class Grid
     }
     public Boolean addUnits()
     {
-        return addUnits(randDest(),randDest());
+        switch (defaultWalker) {
+            case DRIFT:
+                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
+            case WEIGHTED1:
+                return walkers.add(new WalkerWeighted01(randDest(), randDest(), this));
+            case WEIGHTED2:
+                return walkers.add(new WalkerWeighted02(randDest(), randDest(), this));
+            case ANGLE:
+                return walkers.add(new WalkerAngle(randDest(), randDest(), this));
+            default:
+                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
+        }
     }
-    
-    
     private GridReference randDest()
     {
         Random random = new Random();

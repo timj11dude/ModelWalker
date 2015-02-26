@@ -64,18 +64,19 @@ public class Game
         {
             grid.grassPatches[i].grow(growthAmount);
         }
-        try {
-        Grid.watch.notifyAll();
-        }
-        catch (NullPointerException e) {
-            
-        }
-                
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.walkers.size(); x++)
         {
-            //grid.getGrass(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()).trample(1);
-            grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
+            if (!grid.walkers.get(x).move() == true)
+            {
+                grid.walkers.remove(x);
+                grid.addUnits();
+            }
+            else
+            {
+                //grid.getGrass(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()).trample(1);
+                grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
+            }
         }
         if (random.nextInt(40) == 0)
         {
