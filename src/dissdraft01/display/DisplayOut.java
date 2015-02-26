@@ -76,6 +76,6 @@ public class DisplayOut
     public void update() throws InterruptedException
     {
         frameViewer.repaint();
-        Thread.sleep(100);
+        Thread.sleep(1);
     }
 }

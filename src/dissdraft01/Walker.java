@@ -1,11 +1,14 @@
 package dissdraft01;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Timothy Jacobson
  *
  * @author eeue74
  */
-public abstract class Walker extends GridReference implements UnitInterface
+public abstract class Walker extends GridReference implements UnitInterface, Runnable
 {
     protected GridReference dest;
     protected GridReference start;
@@ -40,6 +43,21 @@ public abstract class Walker extends GridReference implements UnitInterface
         setDest(dest);
         this.grid = grid;
         age=0;
+    }
+    
+    public void run() {
+        while (true) {
+            try {
+                Grid.watch.wait();
+            } catch (InterruptedException ex)
+            {
+                Logger.getLogger(Walker.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (!this.move()) {
+                grid.walkers.remove(this);
+                grid.addUnits();
+            }
+        }
     }
     
     /**
