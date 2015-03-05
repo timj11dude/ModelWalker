@@ -1,5 +1,9 @@
-package dissdraft01;
+package Walkers;
 
+import dissdraft01.GrassPatch;
+import dissdraft01.Grid;
+import dissdraft01.GridReference;
+import dissdraft01.UnitInterface;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.*;

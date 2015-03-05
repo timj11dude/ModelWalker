@@ -1,4 +1,8 @@
-package dissdraft01;
+package Walkers;
+
+import dissdraft01.Grid;
+import dissdraft01.GridReference;
+import dissdraft01.UnitInterface;
 
 /**
  * Timothy Jacobson
