@@ -15,18 +15,21 @@ import java.util.logging.Logger;
  * @author eeue74
  */
 public class fileCSVOutput {
-    PrintWriter writer;
+    private static PrintWriter writer;
     Grid grid;
     DateFormat df;
     Date date;
     int count;
     
-    public void fileCSVOutput(Grid grid) {
+    static final String suf = ", ";
+    static final String newLine = ";";
+    
+    public fileCSVOutput(Grid grid) {
         this.grid = grid;
-        df = new SimpleDateFormat("yyyyMMddHH:mm:ss");
+        df = new SimpleDateFormat("yyyyMMddHHmmss");
         date = new Date();
         try {
-            writer = new PrintWriter("ModelWalkerOutput_"+df+".csv","UTF-*");
+            writer = new PrintWriter("ModelWalkerOutput_"+df.format(date)+".csv","UTF-8");
         }
         catch (UnsupportedEncodingException ex)
         {
@@ -35,18 +38,34 @@ public class fileCSVOutput {
         {
             Logger.getLogger(fileCSVOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
-        finally {
-            writer = null;
-        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Counter"+suf);
+        sb.append("Number of Walkers"+suf);
+        sb.append("Average age of Walkers"+suf);
+        sb.append("Average distance to target"+suf);
+        sb.append(newLine);
+        String build = sb.toString();
+
+        writer.println(build);
+        writer.flush();
+        System.out.println(writer);
     }
     
     public void save() {
         StringBuilder sb = new StringBuilder();
-        String suf = ", ";
+        
         sb.append(count+suf);
         sb.append(grid.walkers.size()+suf);
         sb.append(getAverageAge()+suf);
-        writer.println();
+        sb.append(getAverageDist());
+        sb.append(newLine);
+        String build = sb.toString();
+        
+        count++;
+        
+        writer.println(build);
+        writer.flush();
     }
     
     public int getAverageAge() {
