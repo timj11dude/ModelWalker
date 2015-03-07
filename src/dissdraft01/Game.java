@@ -14,15 +14,17 @@ import java.util.Random;
  */
 public class Game
 {
-
+    public static int GRID_HEIGHT = 100;
+    public static int GRID_WIDTH = 100;
+    public static Game instance = null;
+    
+    private static int maxCycle = 50;
+    
+    private int reset = 0;
+    
     protected Grid grid;
     protected int growthAmount;
     protected DisplayOut display;
-    public static int GRID_HEIGHT = 100;
-    public static int GRID_WIDTH = 100;
-    private int reset = 0;
-
-    public static Game instance = null;
     
     /**
      * Initialises the grid object, the display object and sets the growth amount.
