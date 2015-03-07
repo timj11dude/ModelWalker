@@ -5,7 +5,7 @@
  */
 package test;
 
-import Walkers.WalkerAngle;
+import dissdraft01.walkers.WalkerAngle;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
 /**

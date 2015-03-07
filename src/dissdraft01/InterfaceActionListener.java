@@ -1,7 +1,7 @@
 
 package dissdraft01;
 
-import Walkers.WalkerWeighted02;
+import dissdraft01.walkers.WalkerWeighted02;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JSlider;

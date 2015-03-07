@@ -1,7 +1,7 @@
 
 package dissdraft01;
 
-import Walkers.WalkerAngle;
+import dissdraft01.walkers.WalkerAngle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

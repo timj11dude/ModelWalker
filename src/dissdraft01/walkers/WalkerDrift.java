@@ -1,4 +1,4 @@
-package Walkers;
+package dissdraft01.walkers;
 
 import dissdraft01.GrassPatch;
 import dissdraft01.Grid;

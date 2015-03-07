@@ -7,7 +7,7 @@ import dissdraft01.Grid;
 import dissdraft01.GrassPatch;
 import dissdraft01.GridReference;
 import dissdraft01.UnitInterface;
-import Walkers.WalkerAngle;
+import dissdraft01.walkers.WalkerAngle;
 import java.awt.*;
 import javax.swing.*;
  

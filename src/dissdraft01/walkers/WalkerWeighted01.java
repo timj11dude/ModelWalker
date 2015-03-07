@@ -1,17 +1,15 @@
-package Walkers;
+package dissdraft01.walkers;
 
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
 import dissdraft01.UnitInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Timothy Jacobson
  *
  * @author eeue74
  */
-public class WalkerWeighted02 extends Walker implements UnitInterface
+public class WalkerWeighted01 extends Walker implements UnitInterface
 {
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
@@ -19,11 +17,6 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
     private double smalGrad = Double.MAX_VALUE;
     private double larGrass = 0;
     private double smalGrass = Double.MAX_VALUE;
-    
-    public static double grassWeight = 0.15;
-    public static double distWeight = 0.85;
-    
-    private List<GridReference> visited = new ArrayList<GridReference>();
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -31,7 +24,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
      * @param corY Integer
      * @param dest GridReference
      */
-    public WalkerWeighted02(int corX, int corY, GridReference dest, Grid grid)
+    public WalkerWeighted01(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY, dest, grid);
         age=0;
@@ -41,24 +34,10 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
      * @param coords GridReference
      * @param dest GridReference
      */
-    public WalkerWeighted02(GridReference coords, GridReference dest, Grid grid)
+    public WalkerWeighted01(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
         age=0;
-    }
-    
-    
-    public void setGrassWeight(double x) {
-        this.grassWeight = x;
-    }
-    public void setDistWeight(double x) {
-        this.distWeight = x;
-    }
-    public double getGrassWeight() {
-        return this.grassWeight;
-    }
-    public double getDistWeight() {
-        return this.distWeight;
     }
     
     public Boolean move()
@@ -81,26 +60,19 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
             {
                 for (int y = -1; y < 2; y++)
                 {
-                    int xTest = this.getX() + x;
-                    int yTest = this.getY() + y;
-                    if (yTest == start.getY() && xTest == start.getX() || (y==0 && x==0)) { continue; }
-                    try {
-                        if (visited.contains(new GridReference(xTest, yTest))) { continue; }
-                    }
-                    catch (NullPointerException e) {
-                    }
-                    double testLength = heuristicDist((xTest), (yTest));
-                    //double testGrad = checkScale(1 ,heuristicGrad((xTest), (yTest)));
-                    double testGras = heuristicGrass((xTest), (yTest));
-                    double testWeight = testLength * distWeight + testGras * grassWeight;
+                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
+                    double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
+                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
+                    double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
+                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
                     
-                    if (yTest == dest.getY() && xTest == dest.getX() ) {testWeight = 0.0; }
-                    //System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grass:"+testGras+"| Weighted:"+testWeight);
+                    if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
+                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
                     if (testWeight < shortest) {
                         shortest = testWeight;
                         try
                         {
-                        pos = new GridReference((xTest), (yTest));
+                        pos = new GridReference((this.getX() + x), (this.getY() + y));
                         }
                         catch (NullPointerException e)
                         {
@@ -113,7 +85,6 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
             //System.out.println("NewPosition:"+pos.gridCoord());
             this.setX(pos.getX());
             this.setY(pos.getY());
-            visited.add(pos);
             return true;
         }
     }
@@ -197,5 +168,17 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
                 }         
             }
         }
+    }
+    /**
+     * @return Scale value out of the degree between best and worst option of it's type.
+     */
+    private double checkScale(int type, double value)
+    {
+        switch (type){
+            case 0: return ((value - smalLength) / (larLength - smalLength)) * 100;
+            case 1: return ((value - smalGrad) / (larGrad - smalGrad)) * 100;
+            case 2: return ((value - smalGrass) / (larGrass - smalGrass)) * 100;
+        }
+        return 100;
     }
 }

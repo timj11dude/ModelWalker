@@ -1,9 +1,9 @@
 package dissdraft01;
 
-import Walkers.WalkerWeighted01;
-import Walkers.WalkerDrift;
-import Walkers.WalkerAngle;
-import Walkers.WalkerWeighted02;
+import dissdraft01.walkers.WalkerWeighted01;
+import dissdraft01.walkers.WalkerDrift;
+import dissdraft01.walkers.WalkerAngle;
+import dissdraft01.walkers.WalkerWeighted02;
 import static dissdraft01.Game.GRID_HEIGHT;
 import static dissdraft01.Game.GRID_WIDTH;
 import java.util.ArrayList;
