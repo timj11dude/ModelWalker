@@ -1,5 +1,6 @@
 package dissdraft01.walkers;
 
+import dissdraft01.Game;
 import dissdraft01.GrassPatch;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
@@ -69,7 +70,7 @@ public class WalkerDrift extends Walker implements UnitInterface
                     g = grid.getGrass(this.getX()+(x-1), this.getY()+(y-1));
                     double angleg = angle(g.getX(), g.getY());
                     //System.out.println("x:"+g.getX()+"y:"+g.getY()+"="+angleg + "<" + Math.PI / 2);
-                    if (angleg < (Math.PI / 3))
+                    if (angleg < (Math.PI * Game.weightWalker))
                     {
                         //System.out.println("TRUE");
                         posTar.add(g);

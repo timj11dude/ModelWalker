@@ -1,5 +1,6 @@
 package dissdraft01.walkers;
 
+import dissdraft01.Game;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
 import dissdraft01.UnitInterface;
@@ -92,7 +93,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
                     double testLength = heuristicDist((xTest), (yTest));
                     //double testGrad = checkScale(1 ,heuristicGrad((xTest), (yTest)));
                     double testGras = heuristicGrass((xTest), (yTest));
-                    double testWeight = testLength * distWeight + testGras * grassWeight;
+                    double testWeight = testLength * Game.weightWalker + testGras * (1-Game.weightWalker);
                     
                     if (yTest == dest.getY() && xTest == dest.getX() ) {testWeight = 0.0; }
                     //System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grass:"+testGras+"| Weighted:"+testWeight);

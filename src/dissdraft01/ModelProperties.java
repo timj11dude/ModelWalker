@@ -26,9 +26,7 @@ public class ModelProperties {
         } else {
             throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
         }
-        System.out.println(prop.getProperty("grid.size.height"));
         inputStream.close();
-        System.out.println(prop.getProperty("grid.size.height"));
     }
     /*
     public void saveDefaultProperties() {
@@ -58,7 +56,7 @@ public class ModelProperties {
     } */
     
     public Properties getProperties() {
-        System.out.println(prop.getProperty("grid.size.height"));
+        //System.out.println(prop.getProperty("grid.size.height"));
         return prop;
     }
 }

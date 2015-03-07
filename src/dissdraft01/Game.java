@@ -1,11 +1,8 @@
 package dissdraft01;
 
 import dissdraft01.display.DisplayOut;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.Random;
 
 /**
  * Timothy Jacobson
@@ -17,9 +14,12 @@ public class Game
     public static int GRID_HEIGHT = 100;
     public static int GRID_WIDTH = 100;
     public static Game instance = null;
+    public static double weightWalker = 0;
     
-    private static int maxCycle = 50;
+    private static int maxCycle = 100;
+    private static int spawnFrequency = 50;
     
+    private int cycle;
     private int reset = 0;
     
     protected Grid grid;
@@ -35,20 +35,29 @@ public class Game
     public void run() throws InterruptedException
     {
         instance = this;
+        loadProps();
+        System.out.println("Size of grid: "+GRID_HEIGHT+"x"+GRID_WIDTH);
         grid = new Grid();
         growthAmount = 1;
         display = new DisplayOut(grid, this);
-        int i = 0;
-        loadProps();
+        cycle = 0;
+        fileCSVOutput fileOut = new fileCSVOutput(grid);
         while (true)
         {
-            System.out.println("Update cycle:" + i);
-            System.out.println("# of Walkers:" + grid.walkers.size());
+            System.out.println("     Update cycle:" + cycle);
+            System.out.println("     # of Walkers:" + grid.walkers.size());
+            System.out.println("Weight of Walkers:"+Game.weightWalker);
             update();
             display.update();
             System.out.println("---------------------------------");
-            i++;
-            if (reset != 0) {reset(reset);}
+            fileOut.save();
+            cycle++;
+            if (cycle>maxCycle) {
+                reset(1);
+                weightWalker += 0.1;
+                cycle = 0;
+            }
+            //if (reset != 0) {reset(reset);}
         }
     }
 
@@ -60,7 +69,6 @@ public class Game
      */
     public void update()
     {
-        Random random = new Random();
         //Tell all grass patches to grow.
         for (int i = 0; i < grid.grassPatches.length; i++)
         {
@@ -72,7 +80,6 @@ public class Game
             if (!grid.walkers.get(x).move() == true)
             {
                 grid.walkers.remove(x);
-                grid.addUnits();
             }
             else
             {
@@ -80,8 +87,7 @@ public class Game
                 grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
             }
         }
-        if (random.nextInt(40) == 0)
-        {
+        if ((cycle%spawnFrequency)==0) {
             grid.addUnits();
         }
     }
@@ -89,10 +95,12 @@ public class Game
     private void loadProps() {
         try {
             ModelProperties source = new ModelProperties();
-            System.out.println();
+            //System.out.println();
             Properties props = source.getProperties();
             Game.GRID_HEIGHT = Integer.parseInt(props.getProperty("grid.size.height"));
             Game.GRID_WIDTH = Integer.parseInt(props.getProperty("grid.size.width"));
+            this.maxCycle = Integer.parseInt(props.getProperty("game.cycle.maxCycle"));
+            this.spawnFrequency = Integer.parseInt(props.getProperty("game.cycle.frequency"));
         }
         catch (IOException e) {
             System.out.println("Error loading properties: " + e);

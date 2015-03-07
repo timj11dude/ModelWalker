@@ -23,6 +23,7 @@ public class Grid
     private GridReference defaultStart;
     private Walkers defaultWalker;
     public static enum Walkers {DRIFT, WEIGHTED1, WEIGHTED2, ANGLE};
+    private int walkC = 0;
 
     /**
      * Initialises the grid, with GrassPatch array for each position on the grid
@@ -30,18 +31,17 @@ public class Grid
      */
     public Grid()
     {
-        dest = new GridReference[4];
-        dest[0] = new GridReference(98,80);
-        dest[1] = new GridReference(98,20);
-        dest[2] = new GridReference(10,98);
-        dest[3] = new GridReference(10,10);
-        defaultStart = new GridReference(2, 2);
+        dest = new GridReference[2];
+        dest[0] = new GridReference(95,80);
+        dest[1] = new GridReference(95,20);
+        //dest[2] = new GridReference(5,50);
+        defaultStart = new GridReference(5, 50);
         defaultWalker = Walkers.WEIGHTED2;
         
         createField();
         
         walkers = new ArrayList<UnitInterface>();
-        addUnits(randDest(), randDest());
+        //addUnits(randDest(), randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
             System.out.println(i + ":" + grassPatches[i]);
@@ -77,18 +77,9 @@ public class Grid
     }
     public Boolean addUnits()
     {
-        switch (defaultWalker) {
-            case DRIFT:
-                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
-            case WEIGHTED1:
-                return walkers.add(new WalkerWeighted01(randDest(), randDest(), this));
-            case WEIGHTED2:
-                return walkers.add(new WalkerWeighted02(randDest(), randDest(), this));
-            case ANGLE:
-                return walkers.add(new WalkerAngle(randDest(), randDest(), this));
-            default:
-                return walkers.add(new WalkerDrift(randDest(), randDest(), this));
-        }
+        walkC++;
+        if (walkC>(dest.length-1)) {walkC=0;}
+        return addUnits(defaultStart, dest[walkC]);
     }
     private GridReference randDest()
     {
@@ -189,7 +180,7 @@ public class Grid
                 grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
                 walkers.removeAll(walkers);
                 createField();
-                addUnits(randDest(), randDest());
+                addUnits();
                 break;
             case 2:
                 grassPatches = new GrassPatch[(Game.GRID_WIDTH * Game.GRID_HEIGHT)];
@@ -197,7 +188,7 @@ public class Grid
                 break;
             case 3:
                 walkers.removeAll(walkers);
-                addUnits(randDest(), randDest());
+                addUnits();
                 break;
         }
     }

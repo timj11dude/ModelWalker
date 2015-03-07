@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import dissdraft01.*;
 
 /**
  * Timothy Jacobson
@@ -70,19 +71,31 @@ public class fileCSVOutput {
     
     public int getAverageAge() {
         int totalAge = 0;
+        int averageAge;
         for (UnitInterface i : grid.walkers) {
             totalAge += i.getAge();
         }
-        int averageAge = totalAge / grid.walkers.size();
+        try {
+            averageAge = totalAge / grid.walkers.size();
+        }
+        catch (ArithmeticException e) {
+            averageAge = 0;
+        }
         return averageAge;
     }
     
     public int getAverageDist() {
         int totalDist = 0;
+        int averageDist;
         for (UnitInterface i : grid.walkers) {
             totalDist += i.getDistRemaining();
         }
-        int averageDist = totalDist / grid.walkers.size();
+        try {
+            averageDist = totalDist / grid.walkers.size();
+        }
+        catch (ArithmeticException e) {
+            averageDist = 0;
+        }
         return averageDist;
     }
     
