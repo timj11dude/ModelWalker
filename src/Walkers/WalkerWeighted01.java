@@ -109,7 +109,7 @@ public class WalkerWeighted01 extends Walker implements UnitInterface
     }
     private double heuristicGrad(int x, int y)
     {
-        double curGrad = (double)Math.abs(dest.getY() - y) / (double)Math.abs(dest.getX() - x);
+        double curGrad = Math.abs(dest.getY() - y) / Math.abs(dest.getX() - x);
         //System.out.println("CurGrad:"+curGrad+"| staGrad:"+this.grad);
         if (Double.isInfinite(Math.abs(curGrad - this.grad)))
         { return 0;
