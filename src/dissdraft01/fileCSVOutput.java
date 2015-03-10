@@ -42,6 +42,7 @@ public class fileCSVOutput {
         
         StringBuilder sb = new StringBuilder();
         sb.append("Counter"+suf);
+        sb.append("Parameter setting"+suf);
         sb.append("Number of Walkers"+suf);
         sb.append("Average age of Walkers"+suf);
         sb.append("Average distance to target"+suf);
@@ -57,6 +58,7 @@ public class fileCSVOutput {
         StringBuilder sb = new StringBuilder();
         
         sb.append(count+suf);
+        sb.append(Game.weightWalker+suf);
         sb.append(grid.walkers.size()+suf);
         sb.append(getAverageAge()+suf);
         sb.append(getAverageDist());
