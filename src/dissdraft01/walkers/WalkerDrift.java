@@ -25,7 +25,6 @@ public class WalkerDrift extends Walker implements UnitInterface
     public WalkerDrift(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY, dest, grid);
-        super.age=0;
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -35,7 +34,6 @@ public class WalkerDrift extends Walker implements UnitInterface
     public WalkerDrift(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
-        age=0;
     }
     
     public Boolean move()

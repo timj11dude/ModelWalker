@@ -27,7 +27,6 @@ public class WalkerAngle extends Walker implements UnitInterface
     public WalkerAngle(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY, dest, grid);
-        age=0;
     }
     /**
      * Initialises a new Unit, with current position and destination.
@@ -37,7 +36,6 @@ public class WalkerAngle extends Walker implements UnitInterface
     public WalkerAngle(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
-        age=0;
     }
     
     public Boolean move()

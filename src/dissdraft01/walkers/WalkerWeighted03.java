@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author eeue74
  */
-public class WalkerWeighted02 extends Walker implements UnitInterface
+public class WalkerWeighted03 extends Walker implements UnitInterface
 {
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
@@ -32,7 +32,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
      * @param corY Integer
      * @param dest GridReference
      */
-    public WalkerWeighted02(int corX, int corY, GridReference dest, Grid grid)
+    public WalkerWeighted03(int corX, int corY, GridReference dest, Grid grid)
     {
         super(corX, corY, dest, grid);
     }
@@ -41,7 +41,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
      * @param coords GridReference
      * @param dest GridReference
      */
-    public WalkerWeighted02(GridReference coords, GridReference dest, Grid grid)
+    public WalkerWeighted03(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
     }
@@ -99,7 +99,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
                         shortest = testWeight;
                         try
                         {
-                        pos = new GridReference((xTest), (yTest));
+                            pos = new GridReference((xTest), (yTest));
                         }
                         catch (NullPointerException e)
                         {
