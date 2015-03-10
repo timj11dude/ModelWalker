@@ -42,6 +42,7 @@ public class Game
         display = new DisplayOut(grid, this);
         cycle = 0;
         fileCSVOutput fileOut = new fileCSVOutput(grid);
+        sim:
         while (true)
         {
             System.out.println("     Update cycle:" + cycle);
@@ -56,6 +57,9 @@ public class Game
                 reset(1);
                 weightWalker += 0.1;
                 cycle = 0;
+            }
+            if (weightWalker>1) {
+                break sim;
             }
             //if (reset != 0) {reset(reset);}
         }
