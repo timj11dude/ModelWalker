@@ -22,7 +22,7 @@ public class Grid
     protected GridReference[] dest;
     private GridReference defaultStart;
     private Walkers defaultWalker;
-    public static enum Walkers {DRIFT, WEIGHTED1, WEIGHTED2, ANGLE};
+    public static enum Walkers {DRIFT, WEIGHTED1, WEIGHTED2, WEIGHTED3, ANGLE};
     private int walkC = 0;
 
     /**
