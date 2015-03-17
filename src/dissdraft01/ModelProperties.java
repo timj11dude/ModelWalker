@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.Properties;
 
 /**
@@ -28,7 +29,7 @@ public class ModelProperties {
         }
         inputStream.close();
     }
-    /*
+    
     public void saveDefaultProperties() {
         try {
  
@@ -37,6 +38,14 @@ public class ModelProperties {
 		// set the properties value
 		prop.setProperty("grid.size.height", "100");
 		prop.setProperty("grid.size.width", "100");
+                prop.setProperty("walkers.type.default", "WEIGHTED2");
+                prop.setProperty("game.cycle.maxCycle", "1000");
+                prop.setProperty("game.cycle.frequency", "50");
+                prop.setProperty("grass.height.default", "10");
+                prop.setProperty("grass.height.max", "10");
+                prop.setProperty("grass.growth.amount", "0");
+                prop.setProperty("grass.growth.tickchance", "0");
+
  
 		// save properties to project root folder
 		prop.store(output, null);
@@ -53,7 +62,7 @@ public class ModelProperties {
 		}
  
 	}
-    } */
+    }
     
     public Properties getProperties() {
         //System.out.println(prop.getProperty("grid.size.height"));

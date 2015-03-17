@@ -1,4 +1,3 @@
-
 package dissdraft01;
 
 import java.io.FileNotFoundException;
@@ -30,7 +29,7 @@ public class fileCSVOutput {
         df = new SimpleDateFormat("yyyyMMddHHmmss");
         date = new Date();
         try {
-            writer = new PrintWriter("ModelWalkerOutput_"+df.format(date)+".csv","UTF-8");
+            writer = new PrintWriter("output/ModelWalkerOutput_"+df.format(date)+".csv","UTF-8");
         }
         catch (UnsupportedEncodingException ex)
         {
