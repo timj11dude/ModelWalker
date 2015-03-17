@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashSet;
 import java.util.Properties;
 
 /**
@@ -15,19 +14,21 @@ import java.util.Properties;
  */
 public class ModelProperties {
 
-    private Properties prop = new Properties();
+    private final Properties prop = new Properties();
     private OutputStream output = null;
-    private String propFileName = "config.properties";
+    private final String propFileName = "config.properties";
     
     public ModelProperties() throws IOException{
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
         //System.out.println(inputStream.toString());
-        if (inputStream != null) {
-            prop.load(inputStream);
-        } else {
-            throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName))
+        {
+            //System.out.println(inputStream.toString());
+            if (inputStream != null) {
+                prop.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+            }
         }
-        inputStream.close();
     }
     
     public void saveDefaultProperties() {
@@ -51,13 +52,11 @@ public class ModelProperties {
 		prop.store(output, null);
  
 	} catch (IOException io) {
-		io.printStackTrace();
 	} finally {
 		if (output != null) {
 			try {
 				output.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
  

@@ -4,8 +4,6 @@ package dissdraft01;
 import dissdraft01.walkers.WalkerAngle;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,8 +18,8 @@ import org.xml.sax.SAXException;
  * @author eeue74
  */
 public class FileParser {
-    private DocumentBuilder builder;
-    private XPath path;
+    private final DocumentBuilder builder;
+    private final XPath path;
     
     
     GridReference[] dests;

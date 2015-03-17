@@ -13,17 +13,19 @@ import javax.swing.event.ChangeListener;
  * @author eeue74
  */
 public class InterfaceActionListener implements ActionListener, ChangeListener {
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "Reset Simulation") {
+        if ("Reset Simulation".equals(e.getActionCommand())) {
             Game.instance.reset(1);
         }
-        if (e.getActionCommand() == "Reset Grass") {
+        if ("Reset Grass".equals(e.getActionCommand())) {
             Game.instance.reset(2);
         }
-        if (e.getActionCommand() == "Reset Walkers") {
+        if ("Reset Walkers".equals(e.getActionCommand())) {
             Game.instance.reset(3);
         }
     }
+    @Override
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider)e.getSource();
         if(!source.getValueIsAdjusting()) {

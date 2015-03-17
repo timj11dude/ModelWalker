@@ -50,14 +50,7 @@ public class GridReference
      */
     public Boolean equal(int x, int y)
     {
-        if (x == _x && y == _y)
-        { 
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
+        return x == _x && y == _y;
     }
     /**
      * Provides a means of comparing the input coordinates,
@@ -67,30 +60,16 @@ public class GridReference
      */
     public Boolean equals(GridReference coords)
     {
-        if (coords.getX() == _x && coords.getY() == _y)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return coords.getX() == _x && coords.getY() == _y;
     }
     @Override
     public boolean equals(Object other)
     {
         GridReference tester = (GridReference)other;
         //System.out.println("Testing: "+tester.toString());
-        if (tester.getX() == _x && tester.getY() == _y)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return tester.getX() == _x && tester.getY() == _y;
     }
-            
+    
 
     /**
      * Generates a string of the current coordinates of the object

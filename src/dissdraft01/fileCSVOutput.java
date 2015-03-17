@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dissdraft01.*;
 
 /**
  * Timothy Jacobson
@@ -31,10 +30,7 @@ public class fileCSVOutput {
         try {
             writer = new PrintWriter("output/ModelWalkerOutput_"+df.format(date)+".csv","UTF-8");
         }
-        catch (UnsupportedEncodingException ex)
-        {
-            Logger.getLogger(fileCSVOutput.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex)
+        catch (UnsupportedEncodingException | FileNotFoundException ex)
         {
             Logger.getLogger(fileCSVOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,10 +52,10 @@ public class fileCSVOutput {
     public void save() {
         StringBuilder sb = new StringBuilder();
         
-        sb.append(count+suf);
-        sb.append(Game.weightWalker+suf);
-        sb.append(grid.walkers.size()+suf);
-        sb.append(getAverageAge()+suf);
+        sb.append(count).append(suf);
+        sb.append(Game.weightWalker).append(suf);
+        sb.append(grid.walkers.size()).append(suf);
+        sb.append(getAverageAge()).append(suf);
         sb.append(getAverageDist());
         sb.append(newLine);
         String build = sb.toString();

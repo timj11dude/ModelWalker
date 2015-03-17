@@ -4,8 +4,6 @@ import dissdraft01.walkers.WalkerWeighted01;
 import dissdraft01.walkers.WalkerDrift;
 import dissdraft01.walkers.WalkerAngle;
 import dissdraft01.walkers.WalkerWeighted02;
-import static dissdraft01.Game.GRID_HEIGHT;
-import static dissdraft01.Game.GRID_WIDTH;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +38,7 @@ public class Grid
         
         createField();
         
-        walkers = new ArrayList<UnitInterface>();
+        walkers = new ArrayList<>();
         //addUnits(randDest(), randDest());
         /*for (int i = 0; i < grassPatches.length; i++)
         {
@@ -114,11 +112,11 @@ public class Grid
      */
     public GrassPatch getGrass(int x, int y)
     {
-        for (int i = 0; i < this.grassPatches.length; i++)
+        for (GrassPatch grassPatche : this.grassPatches)
         {
-            if (this.grassPatches[i].equal(x, y))
+            if (grassPatche.equal(x, y))
             {
-                return this.grassPatches[i];
+                return grassPatche;
             }
         }
         throw new NullPointerException();
@@ -137,11 +135,11 @@ public class Grid
      */
     public UnitInterface getWalkers(int x, int y)
     {
-        for (int i = 0; i < this.walkers.size(); i++)
+        for (UnitInterface walker : this.walkers)
         {
-            if (this.walkers.get(i).equal(x, y))
+            if (walker.equal(x, y))
             {
-                return this.walkers.get(i);
+                return walker;
             }
         }
         throw new NullPointerException();
@@ -160,6 +158,7 @@ public class Grid
      * GrassPatches and Units are contained within.
      * @return String
      */
+    @Override
     public String toString()
     {
         return getClass().getName() + "[# of GrassPatches=" + grassPatches.length+ ", # of Units=" + walkers.size()+ "]";

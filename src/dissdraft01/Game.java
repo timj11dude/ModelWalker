@@ -59,7 +59,7 @@ public class Game
                 cycle = 0;
             }
             if (weightWalker>1) {
-                break sim;
+                break;
             }
             //if (reset != 0) {reset(reset);}
         }
@@ -74,9 +74,9 @@ public class Game
     public void update()
     {
         //Tell all grass patches to grow.
-        for (int i = 0; i < grid.grassPatches.length; i++)
+        for (GrassPatch grassPatche : grid.grassPatches)
         {
-            grid.grassPatches[i].grow(growthAmount);
+            grassPatche.grow(growthAmount);
         }
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.walkers.size(); x++)
@@ -103,8 +103,8 @@ public class Game
             Properties props = source.getProperties();
             Game.GRID_HEIGHT = Integer.parseInt(props.getProperty("grid.size.height"));
             Game.GRID_WIDTH = Integer.parseInt(props.getProperty("grid.size.width"));
-            this.maxCycle = Integer.parseInt(props.getProperty("game.cycle.maxCycle"));
-            this.spawnFrequency = Integer.parseInt(props.getProperty("game.cycle.frequency"));
+            Game.maxCycle = Integer.parseInt(props.getProperty("game.cycle.maxCycle"));
+            Game.spawnFrequency = Integer.parseInt(props.getProperty("game.cycle.frequency"));
         }
         catch (IOException e) {
             System.out.println("Error loading properties: " + e);
