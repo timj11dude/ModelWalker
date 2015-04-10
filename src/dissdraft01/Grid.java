@@ -30,11 +30,14 @@ public class Grid
     public Grid()
     {
         dest = new GridReference[2];
-        dest[0] = new GridReference(95,80);
-        dest[1] = new GridReference(95,20);
+        dest[0] = new GridReference(Game.GRID_WIDTH-(int)((double)Game.GRID_WIDTH*0.05),
+                Game.GRID_HEIGHT-(int)((double)Game.GRID_HEIGHT*0.2));
+        dest[1] = new GridReference(Game.GRID_WIDTH-(int)((double)Game.GRID_WIDTH*0.05),
+                Game.GRID_HEIGHT-(int)((double)Game.GRID_HEIGHT*0.8));
         //dest[2] = new GridReference(5,50);
-        defaultStart = new GridReference(5, 50);
-        defaultWalker = Walkers.WEIGHTED2;
+        defaultStart = new GridReference((int)((double)Game.GRID_WIDTH*0.05),
+                Game.GRID_HEIGHT-(int)((double)Game.GRID_HEIGHT*0.5));
+        defaultWalker = Walkers.ANGLE;
         
         createField();
         
