@@ -29,9 +29,8 @@ public class InterfaceActionListener implements ActionListener, ChangeListener {
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider)e.getSource();
         if(!source.getValueIsAdjusting()) {
-            double generalWeighted = (double)source.getValue() / 100;
-            WalkerWeighted02.distWeight = 1 - generalWeighted;
-            WalkerWeighted02.grassWeight = generalWeighted;
+            double generalWeighted = (double)source.getValue() / (double)source.getMaximum();
+            Game.weightWalker = generalWeighted;
         }
     }
 }
