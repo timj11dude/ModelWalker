@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author eeue74
  */
-public class WalkerDrift extends Walker implements UnitInterface
+public class WalkerDrift extends Walker
 {
     /**
      * Initialises a new Unit, with current position and destination

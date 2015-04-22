@@ -9,7 +9,7 @@ import dissdraft01.UnitInterface;
  *
  * @author eeue74
  */
-public class WalkerAngle extends Walker implements UnitInterface
+public class WalkerAngle extends Walker
 {
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
@@ -48,6 +48,7 @@ public class WalkerAngle extends Walker implements UnitInterface
         {
             double shortest = Double.MAX_VALUE;
             GridReference pos = new GridReference();
+            boolean posChange = false;
             for (int x = -1; x < 2; x++)
             {
                 for (int y = -1; y < 2; y++)
@@ -63,6 +64,7 @@ public class WalkerAngle extends Walker implements UnitInterface
                         try
                         {
                         pos = new GridReference((this.getX() + x), (this.getY() + y));
+                        posChange=true;
                         }
                         catch (NullPointerException e)
                         {
@@ -71,9 +73,15 @@ public class WalkerAngle extends Walker implements UnitInterface
                     }
                 }
             }
-            this.setX(pos.getX());
-            this.setY(pos.getY());
-            return true;
+            if (posChange){
+                this.setX(pos.getX());
+                this.setY(pos.getY());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
     

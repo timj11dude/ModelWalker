@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author eeue74
  */
-public class WalkerWeighted02 extends Walker implements UnitInterface
+public class WalkerWeighted02 extends Walker
 {
     private double larLength = 0;
     private double smalLength = Double.MAX_VALUE;
@@ -47,10 +47,10 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
     }
     
     
-    public void setGrassWeight(double x) {
+    private void setGrassWeight(double x) {
         this.grassWeight = x;
     }
-    public void setDistWeight(double x) {
+    private void setDistWeight(double x) {
         this.distWeight = x;
     }
     public double getGrassWeight() {
@@ -76,6 +76,7 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
             double shortest = Double.MAX_VALUE;
             updateScale();
             GridReference pos = new GridReference(0,0);
+            boolean posChange = false;
             for (int x = -1; x < 2; x++)
             {
                 for (int y = -1; y < 2; y++)
@@ -99,7 +100,8 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
                         shortest = testWeight;
                         try
                         {
-                        pos = new GridReference((xTest), (yTest));
+                            pos = new GridReference((xTest), (yTest));
+                            posChange = true;
                         }
                         catch (NullPointerException e)
                         {
@@ -110,10 +112,17 @@ public class WalkerWeighted02 extends Walker implements UnitInterface
                 }
             }
             //System.out.println("NewPosition:"+pos.gridCoord());
-            this.setX(pos.getX());
-            this.setY(pos.getY());
-            visited.add(pos);
-            return true;
+            if (posChange){
+                this.setX(pos.getX());
+                this.setY(pos.getY());
+                visited.add(pos);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
     
