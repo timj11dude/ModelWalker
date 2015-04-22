@@ -53,15 +53,15 @@ public class Game
             System.out.println("---------------------------------");
             fileOut.save();
             cycle++;
-            if (cycle>maxCycle) {
+            /*if (cycle>maxCycle) {
                 reset(1);
                 weightWalker += 0.1;
                 cycle = 0;
             }
             if (weightWalker>1) {
                 break;
-            }
-            //if (reset != 0) {reset(reset);}
+            }*/
+            if (reset != 0) {reset(reset);}
         }
     }
 
