@@ -1,9 +1,6 @@
 package dissdraft01.display;
 
-import dissdraft01.Game;
 import dissdraft01.Grid;
-import static dissdraft01.Game.GRID_HEIGHT;
-import static dissdraft01.Game.GRID_WIDTH;
 import dissdraft01.InterfaceActionListener;
 import java.awt.*;
 import javax.swing.*;
@@ -19,7 +16,7 @@ public class DisplayOut
     JFrame frameViewer;
     JFrame frameController;
     
-    public DisplayOut(Grid grid, Game game)
+    public DisplayOut(Grid grid)
     {
         frameViewer = new JFrame();
         frameController = new JFrame();
