@@ -2,7 +2,6 @@ package dissdraft01.walkers;
 
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
-import dissdraft01.UnitInterface;
 
 /**
  * Timothy Jacobson
@@ -23,6 +22,7 @@ public class WalkerWeighted01 extends Walker
      * @param corX Integer
      * @param corY Integer
      * @param dest GridReference
+     * @param grid
      */
     public WalkerWeighted01(int corX, int corY, GridReference dest, Grid grid)
     {
@@ -32,12 +32,14 @@ public class WalkerWeighted01 extends Walker
      * Initialises a new Unit, with current position and destination.
      * @param coords GridReference
      * @param dest GridReference
+     * @param grid
      */
     public WalkerWeighted01(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
     }
     
+    @Override
     public Boolean move()
     {
         age++;
@@ -59,13 +61,22 @@ public class WalkerWeighted01 extends Walker
             {
                 for (int y = -1; y < 2; y++)
                 {
-                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
-                    double testLength = checkScale(0 ,heuristicDist((this.getX() + x), (this.getY() + y)));
-                    double testGrad = checkScale(1 ,heuristicGrad((this.getX() + x), (this.getY() + y)));
-                    double testGras = checkScale(2 ,heuristicGrass((this.getX() + x), (this.getY() + y)));
-                    double testWeight = testLength * 0.0001 + testGrad * 0.9 + testGras * 0.00005;
+                    int nx = this.getX() + x;
+                    int ny = this.getY() + y;
                     
-                    if (this.getY() + y == dest.getY() && this.getX() + x == dest.getX() ) {testWeight = 0.0; }
+                    //Skip cells which are either the start coords, or current position.
+                    if (ny == start.getY() && nx == start.getX() || (y==0 && x==0)) { continue; }
+                    
+                    //Gather weightings for each variable
+                    double testLength = checkScale(0 ,heuristicDist((nx), (ny)));
+                    double testGrad = checkScale(1 ,heuristicGrad((nx), (ny)));
+                    double testGras = checkScale(2 ,heuristicGrass((nx), (ny)));
+                    
+                    double testWeight = testLength * 0.1 + testGrad * 0.8 + testGras * 0.1;
+                    
+                    //If destination cell is found, make it automatic select and give it lowest weight.
+                    if (ny == dest.getY() && nx == dest.getX() ) {testWeight = 0.0; }
+                    
                     System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
                     if (testWeight < shortest) {
                         shortest = testWeight;
@@ -94,47 +105,36 @@ public class WalkerWeighted01 extends Walker
             }
         }
     }
-    
-    public double weighted(int x, int y)
-    {
-        //Weighting based on the proximity of the destination since the start.
-        //Gets smaller the closer to the destination.
-        double weightD = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
-        double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
-        //Decrease the weight based on the age of the walker.
-        double weight = Math.min(weightD, weightT);
-        weight = 0;
-        //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
-        double distFromCur2Dest = distance(dest.getX(), dest.getY());
-        double distFromTar2Dest = distance(x, y, dest.getX(), dest.getY());
-        double dist2Tar = distance(x, y);
-        dist2Tar = 0;
-        
-        return (distFromCur2Dest - distFromTar2Dest - dist2Tar) + weight * heuristicGrass(x, y);
-   
-    }
+
     private double heuristicGrad(int x, int y)
     {
-        double curGrad = Math.abs(dest.getY() - y) / Math.abs(dest.getX() - x);
+        double c = 0;
+        try {
+            c = Math.abs(dest.getY() - y) / Math.abs(dest.getX() - x);
+        }
+        catch (ArithmeticException e) {
+            System.err.print(e);
+        }
         //System.out.println("CurGrad:"+curGrad+"| staGrad:"+this.grad);
-        if (Double.isInfinite(Math.abs(curGrad - this.grad)))
+        if (Double.isInfinite(Math.abs(c - this.grad)))
         { return 0;
         }
-        return Math.abs(curGrad - this.grad);
+        return Math.abs(c - this.grad);
     }
+    
     private double heuristicDist(int x, int y)
     {
         return Math.sqrt(Math.pow((dest.getX() - (double)x), 2) + Math.pow((dest.getY() - (double)y), 2));
     }
     private double heuristicGrass(int x, int y)
     {
-        if (this.equal(x, y)) { return Double.MAX_VALUE; }
         try
         {
             return grid.getGrass(x, y).getCurHeight();
         }
         catch (NullPointerException e)
         {
+            System.err.print(e);
             return Double.MAX_VALUE;
         }
     }
@@ -180,11 +180,18 @@ public class WalkerWeighted01 extends Walker
      */
     private double checkScale(int type, double value)
     {
+        double out = 0;
         switch (type){
-            case 0: return ((value - smalLength) / (larLength - smalLength)) * 100;
-            case 1: return ((value - smalGrad) / (larGrad - smalGrad)) * 100;
-            case 2: return ((value - smalGrass) / (larGrass - smalGrass)) * 100;
+            case 0: out = ((value - smalLength) / (larLength - smalLength)) * 100; break;
+            case 1: out = ((value - smalGrad) / (larGrad - smalGrad)) * 100; break;
+            case 2: out = ((value - smalGrass) / (larGrass - smalGrass)) * 100; break;
         }
-        return 100;
+        Double out2 = out;
+        if (!out2.isInfinite() && !out2.isNaN()) {
+            return out;
+        }
+        else {
+            return 0;
+        }
     }
 }
