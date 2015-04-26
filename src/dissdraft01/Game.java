@@ -32,16 +32,17 @@ public class Game
      * Running the update() method for the grid as well as the display.
      * @throws InterruptedException 
      */
-    public void run() throws InterruptedException
-    {
+    public void run() throws InterruptedException {
         instance = this;
-        loadProps();
-        System.out.println("Size of grid: "+GRID_HEIGHT+"x"+GRID_WIDTH);
-        grid = new Grid();
-        growthAmount = 1;
-        display = new DisplayOut(grid, this);
-        cycle = 0;
+        
+        //load grid based parameters
+        load();
+        
+        display = new DisplayOut(grid);
+
         fileCSVOutput fileOut = new fileCSVOutput(grid);
+        
+        cycle = 0;
         sim:
         while (true)
         {
@@ -65,30 +66,47 @@ public class Game
         }
     }
 
+    private void load() {
+        loadProps();
+        System.out.println("Size of grid: "+GRID_HEIGHT+"x"+GRID_WIDTH);
+        grid = new Grid();
+        growthAmount = 1;
+    }
+    
+    
     /**
      * Informs all grassPatches to run their growth methods.
      * Informs all Units to attempt to move, if not, print a message.
      * Should a unit successfully move, apply the trample method to the grassPatch
      * at its current location.
      */
-    public void update()
-    {
+    public void update() {
         //Tell all grass patches to grow.
-        for (GrassPatch grassPatche : grid.grassPatches)
-        {
-            grassPatche.grow(growthAmount);
+        try {
+            for (GrassPatch grassPatche : grid.grassPatches)
+            {
+                grassPatche.grow(growthAmount);
+            }
+        }
+        catch (NullPointerException e) {
+            System.err.print(e);
         }
         //Tell all Units to run a cylce of their move method's
         for (int x = 0; x < grid.walkers.size(); x++)
         {
-            if (!grid.walkers.get(x).move() == true)
-            {
-                grid.walkers.remove(x);
+            try {
+                if (!grid.walkers.get(x).move() == true)
+                {
+                    grid.walkers.remove(x);
+                }
+                else
+                {
+                    //grid.getGrass(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()).trample(1);
+                    grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
+                }
             }
-            else
-            {
-                //grid.getGrass(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()).trample(1);
-                grid.spreadTrample(grid.walkers.get(x).getX(), grid.walkers.get(x).getY()); 
+            catch (Exception e) {
+                System.err.print(e);
             }
         }
         if ((cycle%spawnFrequency)==0) {
