@@ -3,7 +3,6 @@ package dissdraft01.walkers;
 import dissdraft01.Game;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
-import dissdraft01.UnitInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +20,14 @@ public class WalkerWeighted03 extends Walker
     private double larGrass = 0;
     private double smalGrass = Double.MAX_VALUE;
     
-    public static double grassWeight = 0.15;
-    public static double distWeight = 0.85;
-    
-    private List<GridReference> visited = new ArrayList<GridReference>();
+    private List<GridReference> visited = new ArrayList<>();
 
     /**
      * Initialises a new Unit, with current position and destination
      * @param corX Integer
      * @param corY Integer
      * @param dest GridReference
+     * @param grid
      */
     public WalkerWeighted03(int corX, int corY, GridReference dest, Grid grid)
     {
@@ -40,26 +37,14 @@ public class WalkerWeighted03 extends Walker
      * Initialises a new Unit, with current position and destination.
      * @param coords GridReference
      * @param dest GridReference
+     * @param grid
      */
     public WalkerWeighted03(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
     }
     
-    
-    public void setGrassWeight(double x) {
-        this.grassWeight = x;
-    }
-    public void setDistWeight(double x) {
-        this.distWeight = x;
-    }
-    public double getGrassWeight() {
-        return this.grassWeight;
-    }
-    public double getDistWeight() {
-        return this.distWeight;
-    }
-    
+    @Override
     public Boolean move()
     {
         age++;
@@ -89,9 +74,9 @@ public class WalkerWeighted03 extends Walker
                     }
                     catch (NullPointerException e) {
                     }
-                    double testLength = heuristicDist((xTest), (yTest));
+                    double testLength = checkScale(0, heuristicDist((xTest), (yTest)));
                     //double testGrad = checkScale(1 ,heuristicGrad((xTest), (yTest)));
-                    double testGras = heuristicGrass((xTest), (yTest));
+                    double testGras = checkScale(2, heuristicGrass((xTest), (yTest)));
                     double testWeight = testLength * Game.weightWalker + testGras * (1-Game.weightWalker);
                     
                     if (yTest == dest.getY() && xTest == dest.getX() ) {testWeight = 0.0; }
@@ -124,25 +109,7 @@ public class WalkerWeighted03 extends Walker
             }
         }
     }
-    
-    public double weighted(int x, int y)
-    {
-        //Weighting based on the proximity of the destination since the start.
-        //Gets smaller the closer to the destination.
-        double weightD = distance(x, y, dest.getX(), dest.getY()) / distance(start, dest);
-        double weightT = Math.max((100 - Math.pow((age / 20), 2))/100, 0);
-        //Decrease the weight based on the age of the walker.
-        double weight = Math.min(weightD, weightT);
-        weight = 0;
-        //System.out.println("X:"+ x + "Y:" + y + "Weight:" + weight);
-        double distFromCur2Dest = distance(dest.getX(), dest.getY());
-        double distFromTar2Dest = distance(x, y, dest.getX(), dest.getY());
-        double dist2Tar = distance(x, y);
-        dist2Tar = 0;
-        
-        return (distFromCur2Dest - distFromTar2Dest - dist2Tar) + weight * heuristicGrass(x, y);
-   
-    }
+
     private double heuristicGrad(int x, int y)
     {
         double curGrad;
@@ -209,6 +176,22 @@ public class WalkerWeighted03 extends Walker
 
                 }         
             }
+        }
+    }
+    private double checkScale(int type, double value)
+    {
+        double out = 0;
+        switch (type){
+            case 0: out = ((value - smalLength) / (larLength - smalLength)) * 100; break;
+            case 1: out = ((value - smalGrad) / (larGrad - smalGrad)) * 100; break;
+            case 2: out = ((value - smalGrass) / (larGrass - smalGrass)) * 100; break;
+        }
+        Double out2 = out;
+        if (!out2.isInfinite() && !out2.isNaN()) {
+            return out;
+        }
+        else {
+            return 0;
         }
     }
 }
