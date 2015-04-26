@@ -4,9 +4,6 @@ import dissdraft01.Game;
 import dissdraft01.GrassPatch;
 import dissdraft01.Grid;
 import dissdraft01.GridReference;
-import dissdraft01.UnitInterface;
-import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.*;
 
 /**
@@ -21,6 +18,7 @@ public class WalkerDrift extends Walker
      * @param corX Integer
      * @param corY Integer
      * @param dest GridReference
+     * @param grid
      */
     public WalkerDrift(int corX, int corY, GridReference dest, Grid grid)
     {
@@ -30,19 +28,21 @@ public class WalkerDrift extends Walker
      * Initialises a new Unit, with current position and destination.
      * @param coords GridReference
      * @param dest GridReference
+     * @param grid
      */
     public WalkerDrift(GridReference coords, GridReference dest, Grid grid)
     {
         super(coords, dest, grid);
     }
     
+    @Override
     public Boolean move()
     {
         age++;
         //Create an array for each searched cell
-        List<GridReference> posCoords = new ArrayList<GridReference>();
+        List<GridReference> posCoords;
         posCoords = updateMap();
-        if (this.getX() == dest.getX() && this.getY() == dest.getY() || posCoords.size() == 0)
+        if (this.getX() == dest.getX() && this.getY() == dest.getY() || posCoords.isEmpty())
         {
             return false;
         } else
@@ -57,7 +57,7 @@ public class WalkerDrift extends Walker
     private List updateMap()
     {
         int s = 3;
-        List<GridReference> posTar = new ArrayList<GridReference>();
+        List<GridReference> posTar = new ArrayList<>();
         GrassPatch g;
         for (int x = 0; x < s; x++)
         {
@@ -76,7 +76,6 @@ public class WalkerDrift extends Walker
                 }
                 catch (NullPointerException e)
                 {
-                    continue;
                 }
             }
         }
