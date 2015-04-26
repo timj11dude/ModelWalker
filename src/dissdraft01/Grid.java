@@ -4,6 +4,7 @@ import dissdraft01.walkers.WalkerWeighted01;
 import dissdraft01.walkers.WalkerDrift;
 import dissdraft01.walkers.WalkerAngle;
 import dissdraft01.walkers.WalkerWeighted02;
+import dissdraft01.walkers.WalkerWeighted03;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,7 +38,7 @@ public class Grid
         //dest[2] = new GridReference(5,50);
         defaultStart = new GridReference((int)((double)Game.GRID_WIDTH*0.05),
                 Game.GRID_HEIGHT-(int)((double)Game.GRID_HEIGHT*0.5));
-        defaultWalker = Walkers.WEIGHTED1;
+        defaultWalker = Walkers.WEIGHTED3;
         
         createField();
         
@@ -70,6 +71,8 @@ public class Grid
                 return walkers.add(new WalkerWeighted01(coord, dest, this));
             case WEIGHTED2:
                 return walkers.add(new WalkerWeighted02(coord, dest, this));
+            case WEIGHTED3:
+                return walkers.add(new WalkerWeighted03(coord, dest, this));
             case ANGLE:
                 return walkers.add(new WalkerAngle(coord, dest, this));
             default:
