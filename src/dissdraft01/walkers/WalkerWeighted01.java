@@ -10,12 +10,12 @@ import dissdraft01.GridReference;
  */
 public class WalkerWeighted01 extends Walker
 {
-    private double larLength = 0;
-    private double smalLength = Double.MAX_VALUE;
-    private double larGrad = 0; 
-    private double smalGrad = Double.MAX_VALUE;
-    private double larGrass = 0;
-    private double smalGrass = Double.MAX_VALUE;
+    private double larLength;
+    private double smalLength;
+    private double larGrad; 
+    private double smalGrad;
+    private double larGrass;
+    private double smalGrass;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -39,70 +39,52 @@ public class WalkerWeighted01 extends Walker
         super(coords, dest, grid);
     }
     
-    @Override
-    public Boolean move()
-    {
-        age++;
-        //System.out.println("My current coords are:" + this.gridCoord());
-        /*
-         *Check if Unit is at it's destination
-         */
-        //System.out.println(this.gridCoord());
-        if (this.getX() == dest.getX() && this.getY() == dest.getY())
+    GridReference pos;
+    boolean posChange;
+    
+    void preMove() {
+        larLength = 0;
+        smalLength = Double.MAX_VALUE;
+        larGrad = 0; 
+        smalGrad = Double.MAX_VALUE;
+        larGrass = 0;
+        smalGrass = Double.MAX_VALUE;
+        
+        weight = Double.MAX_VALUE;
+        updateScale();
+        pos = new GridReference(0,0);
+        posChange = false;
+    }
+    
+    void stepMove(int nx, int ny) {
+        //Gather weightings for each variable
+        double testLength = checkScale(0 ,heuristicDist((nx), (ny)));
+        double testGrad = checkScale(1 ,heuristicGrad((nx), (ny)));
+        double testGras = checkScale(2 ,heuristicGrass((nx), (ny)));
+        double testWeight = testLength * 0.1 + testGrad * 0.1 + testGras * 0.8;
+        
+        if (testWeight < weight) {
+            weight = testWeight;
+            try
+            {
+            pos = new GridReference(nx, ny);
+            posChange = true;
+            }
+            catch (NullPointerException e)
+            {
+            }
+        }
+    }
+    
+    boolean postMove() {
+        if (posChange){
+            this.setX(pos.getX());
+            this.setY(pos.getY());
+            return true;
+        }
+        else
         {
             return false;
-        } else
-        {        
-            double shortest = Double.MAX_VALUE;
-            updateScale();
-            GridReference pos = new GridReference(0,0);
-            boolean posChange = false;
-            for (int x = -1; x < 2; x++)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    int nx = this.getX() + x;
-                    int ny = this.getY() + y;
-                    
-                    //Skip cells which are either the start coords, or current position.
-                    if (ny == start.getY() && nx == start.getX() || (y==0 && x==0)) { continue; }
-                    
-                    //Gather weightings for each variable
-                    double testLength = checkScale(0 ,heuristicDist((nx), (ny)));
-                    double testGrad = checkScale(1 ,heuristicGrad((nx), (ny)));
-                    double testGras = checkScale(2 ,heuristicGrass((nx), (ny)));
-                    
-                    double testWeight = testLength * 0.1 + testGrad * 0.8 + testGras * 0.1;
-                    
-                    //If destination cell is found, make it automatic select and give it lowest weight.
-                    if (ny == dest.getY() && nx == dest.getX() ) {testWeight = 0.0; }
-                    
-                    System.out.println("X:"+x+"Y:"+y+"| Dist:"+testLength+"| Grad:"+testGrad+"| Grass:"+testGras+"| Weighted:"+testWeight);
-                    if (testWeight < shortest) {
-                        shortest = testWeight;
-                        try
-                        {
-                        pos = new GridReference((this.getX() + x), (this.getY() + y));
-                        posChange = true;
-                        }
-                        catch (NullPointerException e)
-                        {
-                            
-                        }
-                        
-                    }
-                }
-            }
-            //System.out.println("NewPosition:"+pos.gridCoord());
-            if (posChange){
-                this.setX(pos.getX());
-                this.setY(pos.getY());
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 

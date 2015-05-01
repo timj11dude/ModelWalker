@@ -38,7 +38,7 @@ public class Grid
         //dest[2] = new GridReference(5,50);
         defaultStart = new GridReference((int)((double)Game.GRID_WIDTH*0.05),
                 Game.GRID_HEIGHT-(int)((double)Game.GRID_HEIGHT*0.5));
-        defaultWalker = Walkers.WEIGHTED3;
+        defaultWalker = Walkers.DRIFT;
         
         createField();
         

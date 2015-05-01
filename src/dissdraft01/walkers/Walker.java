@@ -16,6 +16,9 @@ public abstract class Walker extends GridReference implements UnitInterface
     protected double grad;
     protected Grid grid;
     protected int age;
+    protected double weight;
+    
+    private final int moveScanRadius = 1;
 
     /**
      * Initialises a new Unit, with current position and destination
@@ -45,6 +48,37 @@ public abstract class Walker extends GridReference implements UnitInterface
         this.grid = grid;
         age=0;
     }
+       
+    @Override
+    public boolean move()
+    {
+        int mSR = moveScanRadius;
+        age++;
+        //Immediatly return false if already at destination
+        if (this.getX() == dest.getX() && this.getY() == dest.getY())
+        {
+            return false;
+        }
+        else
+        {        
+            preMove();
+            for (int x = -mSR; x < mSR+1; x++)
+            {
+                for (int y = -mSR; y < mSR+1; y++)
+                {
+                    if (this.getY() + y == start.getY() && this.getX() + x == start.getX() || (y==0 && x==0)) { continue; }
+                    stepMove(x+this.getX(),y+this.getY());
+                }
+            }
+            return postMove();
+        }
+    }
+    
+    abstract void preMove();
+    
+    abstract void stepMove(int x, int y);
+    
+    abstract boolean postMove();
     
     /**
      * Sets a new current position
@@ -145,5 +179,8 @@ public abstract class Walker extends GridReference implements UnitInterface
     }
     public double getDistRemaining() {
         return distance(dest);
+    }
+    public double getWeight() {
+        return weight;
     }
 }

@@ -45,7 +45,7 @@ public class WalkerWeighted02 extends Walker
     }
 
     @Override
-    public Boolean move()
+    public boolean move()
     {
         age++;
         //System.out.println("My current coords are:" + this.gridCoord());
@@ -110,6 +110,10 @@ public class WalkerWeighted02 extends Walker
 
         }
     }
+    
+    void preMove() {}
+    void stepMove(int x, int y) {}
+    boolean postMove() {return false;}
     
     private double heuristicGrad(int x, int y)
     {

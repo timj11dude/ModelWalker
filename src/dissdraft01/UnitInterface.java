@@ -18,7 +18,7 @@ public interface UnitInterface {
    
    void setDest(GridReference dest);
    
-   Boolean move();
+   boolean move();
 
     /**
      * Provides a means of comparing the input coordinates,
@@ -57,4 +57,5 @@ public interface UnitInterface {
     
     int getAge();
     double getDistRemaining();
+    double getWeight();
 }

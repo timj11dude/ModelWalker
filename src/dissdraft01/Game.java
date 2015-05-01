@@ -95,7 +95,7 @@ public class Game
         for (int x = 0; x < grid.walkers.size(); x++)
         {
             try {
-                if (!grid.walkers.get(x).move() == true)
+                if (!grid.walkers.get(x).move())
                 {
                     grid.walkers.remove(x);
                 }

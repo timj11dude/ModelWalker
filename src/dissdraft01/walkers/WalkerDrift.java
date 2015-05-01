@@ -36,7 +36,7 @@ public class WalkerDrift extends Walker
     }
     
     @Override
-    public Boolean move()
+    public boolean move()
     {
         age++;
         //Create an array for each searched cell
@@ -53,6 +53,10 @@ public class WalkerDrift extends Walker
             return true;
         }
     }
+    
+    void preMove(){}
+    void stepMove(int x, int y){}
+    boolean postMove(){return false;}
     
     private List updateMap()
     {
