@@ -215,3 +215,4 @@ pip-log.txt
 .mr.developer.cfg
 /nbproject/private/
 /output/
+/src/tester.java
