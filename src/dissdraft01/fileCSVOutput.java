@@ -1,11 +1,13 @@
 package dissdraft01;
 
+import dissdraft01.walkers.Walker;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +50,9 @@ public class fileCSVOutput {
         writer.flush();
         System.out.println(writer);
     }
-    
+    /**
+     * Create a new data entry row
+     */
     public void save() {
         StringBuilder sb = new StringBuilder();
         
@@ -96,6 +100,73 @@ public class fileCSVOutput {
         return averageDist;
     }
     
+    public int getAverageWeight() {
+        int totalWeight = 0;
+        int averageWeight;
+        for (UnitInterface i : grid.walkers) {
+            totalWeight += i.getWeight();
+        }
+        return 0;
+    }
+    
+    private String[] getWalkerNames() {
+        List<UnitInterface> w = getWalkers();
+        String[] names = new String[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            names[c] = i.toString();
+            c++;
+        }
+        return names;
+    }
+    
+    private int[] getWalkerAge() {
+        List<UnitInterface> w = getWalkers();
+        int[] ages = new int[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            ages[c] = i.getAge();
+            c++;
+        }
+        return ages;
+    }
+    
+    private int[] getWalkerX() {
+        List<UnitInterface> w = getWalkers();
+        int[] walkerX = new int[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            walkerX[c] = i.getX();
+            c++;
+        }
+        return walkerX;
+    }
+    
+    private int[] getWalkerY() {
+        List<UnitInterface> w = getWalkers();
+        int[] walkerY = new int[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            walkerY[c] = i.getY();
+            c++;
+        }
+        return walkerY;
+    }
+    
+    private double[] getWalkerWeight() {
+        List<UnitInterface> w = getWalkers();
+        double[] property = new double[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            property[c] = i.getWeight();
+            c++;
+        }
+        return property;
+    }
+    
+    private List<UnitInterface> getWalkers() {
+        return Game.instance.grid.walkers;
+    }
     public void close() {
         writer.close();
     }
