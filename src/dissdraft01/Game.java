@@ -14,7 +14,7 @@ public class Game
     public static int GRID_HEIGHT = 100;
     public static int GRID_WIDTH = 100;
     public static Game instance = null;
-    public static double weightWalker = 0;
+    public static double weightWalker = 0.7;
     
     private static int maxCycle = 100;
     private static int spawnFrequency = 50;
@@ -134,4 +134,8 @@ public class Game
         this.grid.reset(x);
         this.reset = 0;
     } 
+    
+    public int getCycle() {
+        return this.cycle;
+    }
 }

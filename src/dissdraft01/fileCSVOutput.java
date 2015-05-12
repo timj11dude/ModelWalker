@@ -20,7 +20,6 @@ public class fileCSVOutput {
     Grid grid;
     DateFormat df;
     Date date;
-    int count;
     
     static final String suf = ", ";
     static final String newLine = ";";
@@ -38,11 +37,13 @@ public class fileCSVOutput {
         }
         
         StringBuilder sb = new StringBuilder();
-        sb.append("Counter"+suf);
-        sb.append("Parameter setting"+suf);
-        sb.append("Number of Walkers"+suf);
-        sb.append("Average age of Walkers"+suf);
-        sb.append("Average distance to target"+suf);
+        sb.append("Walker_id"+suf);
+        sb.append("Walker_gridAge"+suf);
+        sb.append("Walker_x"+suf);
+        sb.append("Walker_y"+suf);
+        sb.append("Walker_age"+suf);
+        sb.append("Walker_dist"+suf);
+        sb.append("Walker_weight"+suf);
         sb.append(newLine);
         String build = sb.toString();
 
@@ -54,20 +55,33 @@ public class fileCSVOutput {
      * Create a new data entry row
      */
     public void save() {
-        StringBuilder sb = new StringBuilder();
         
-        sb.append(count).append(suf);
-        sb.append(Game.weightWalker).append(suf);
-        sb.append(grid.walkers.size()).append(suf);
-        sb.append(getAverageAge()).append(suf);
-        sb.append(getAverageDist());
-        sb.append(newLine);
-        String build = sb.toString();
         
-        count++;
+        int[] names = getWalkerNames();
+        int[] coordsX = getWalkerX();
+        int[] coordsY = getWalkerY();
+        int[] ages = getWalkerAges();
+        double[] dists = getWalkerDistances();
+        double[] weights = getWalkerWeights();
         
-        writer.println(build);
-        writer.flush();
+        int c = 0;
+        for (int w : names) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(w).append(suf);
+            sb.append(Game.instance.getCycle()).append(suf);
+            sb.append(coordsX[c]).append(suf);
+            sb.append(coordsY[c]).append(suf);
+            sb.append(ages[c]).append(suf);
+            sb.append(dists[c]).append(suf);
+            sb.append(weights[c]).append(suf);
+            sb.append(newLine);
+            String build = sb.toString();
+
+            c++;
+
+            writer.println(build);
+            writer.flush();
+        }
     }
     
     public int getAverageAge() {
@@ -109,18 +123,18 @@ public class fileCSVOutput {
         return 0;
     }
     
-    private String[] getWalkerNames() {
+    private int[] getWalkerNames() {
         List<UnitInterface> w = getWalkers();
-        String[] names = new String[w.size()];
+        int[] names = new int[w.size()];
         int c = 0;
         for (UnitInterface i : w) {
-            names[c] = i.toString();
+            names[c] = i.hashCode();
             c++;
         }
         return names;
     }
     
-    private int[] getWalkerAge() {
+    private int[] getWalkerAges() {
         List<UnitInterface> w = getWalkers();
         int[] ages = new int[w.size()];
         int c = 0;
@@ -153,12 +167,23 @@ public class fileCSVOutput {
         return walkerY;
     }
     
-    private double[] getWalkerWeight() {
+    private double[] getWalkerWeights() {
         List<UnitInterface> w = getWalkers();
         double[] property = new double[w.size()];
         int c = 0;
         for (UnitInterface i : w) {
             property[c] = i.getWeight();
+            c++;
+        }
+        return property;
+    }
+    
+    private double[] getWalkerDistances() {
+        List<UnitInterface> w = getWalkers();
+        double[] property = new double[w.size()];
+        int c = 0;
+        for (UnitInterface i : w) {
+            property[c] = i.getDistRemaining();
             c++;
         }
         return property;
